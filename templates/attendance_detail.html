@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Attendance - Detail
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'course_attendance' course_id=course_id %}">Attendance</a></li>
+  <li class="breadcrumb-item active">Attendance detail</li>
+{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Student Name</th>
+        <th>Student Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for attendancesDetail in attendancesDetails %}
+        <tr>
+          <td>{{ attendancesDetail.dailyAttendanceStudentId }}</td>
+          <td>{{ attendancesDetail.dailyAttendanceStudentStatus }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

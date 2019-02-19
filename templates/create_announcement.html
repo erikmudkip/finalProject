@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}Start a New Announcement{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'course_announcement' course_id=course_id %}">Announcement</a></li>
+  <li class="breadcrumb-item active">Create announcement</li>
+{% endblock %}
+
+{% block content %}
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% include 'includes/form.html' %}
+  <button type="submit" class="btn btn-success">Post</button>
+</form>
+{% endblock %}

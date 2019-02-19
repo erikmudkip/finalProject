@@ -1,0 +1,80 @@
+{% extends 'base_home.html' %}
+
+{% block title %}
+  IPC
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">IPC</li>
+{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Course Name</th>
+        <th>Course Code</th>
+        <th>Institution</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in courses %}
+        <tr>
+          <td>{{ course.courseName }}</td>
+          <td>{{ course.courseCode }}</td>
+          <td>{{ course.courseInstitution }}</td>
+          <td><a class="btn btn-primary" href="{% url 'course_statistic' course_id=course.id %}">Select</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% load static %}<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IPC</title>
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item active">IPC</li>
+      </ol>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>Course Name</th>
+            <th>Course Code</th>
+            <th>Institution</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for course in courses %}
+            <tr>
+              <td>{{ course.courseName }}</td>
+              <td>{{ course.courseCode }}</td>
+              <td>{{ course.courseInstitution }}</td>
+              <td><a class="btn btn-primary" href="{% url 'course_statistic' course_id=course.id %}">Select</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}Start a New Announcement{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'course_attendance' course_id=course_id %}">Attendance</a></li>
+  <li class="breadcrumb-item active">Create attendance</li>
+{% endblock %}
+
+{% block content %}
+<form method="post" novalidate>
+    {% csrf_token %}
+      {{ formset.management_form }}
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>Student</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i, j in data %}
+            <tr>
+              <td>{{ i.username }}</td>
+              <td><ul class="list-inline">{{ j.as_ul }}</ul></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-success">Post</button>
+  </form>
+{% endblock %}

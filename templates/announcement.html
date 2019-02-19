@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Announcement
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+  <li class="breadcrumb-item active">Announcement</li>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a class="btn btn-primary" href="{% url 'create_course_announcement' course_id=course_id %}">Create Announcement</a>
+  </div>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Announcement Date</th>
+        <th>Announcement</th>
+        <th>Announcement Poster</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for announcement in announcements %}
+        <tr>
+          <td>{{ announcement.announcementDate }}</td>
+          <td>{{ announcement.announcementFeed }}</td>
+          <td>{{ announcement.announcementPosterId }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
