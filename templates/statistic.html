@@ -38,21 +38,17 @@
   <table class="table">
     <thead class="thead-dark">
       <tr>
-        <th></th>
-        <th>Result from</th>
-        <th>Mark</th>
-        <th>Date posted</th>
-        <th>Feedback</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Attendance Taker</th>
       </tr>
     </thead>
     <tbody>
-      {% for result in results %}
+      {% for dailyAttendance, attendances in data %}
         <tr>
-          <td>{{ result.resultType }}</td>
-          <td>{{ result.resultName }}</td>
-          <td>{{ result.resultStudentMark }}</td>
-          <td>{{ result.resultReturnedDate }}</td>
-          <td>{{ result.resultFeedback }}</td>
+          <td>{{ attendances.attendanceDate }}</td>
+          <td>{{ dailyAttendance.dailyAttendanceStudentStatus }}</td>
+          <td>{{ attendances.attendanceTeacherId }}</td>
         </tr>
       {% endfor %}
     </tbody>

@@ -19,8 +19,13 @@ def course(request):
 
 def course_statistic(request, course_id):
     results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user)
+    dailyAttendances = get_list_or_404(DailyAttendance.objects.order_by('-id'), dailyAttendanceStudentId=request.user)
+    attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'))
     return render(request, 'statistic.html', {'course_id': course_id,
-                                              'results': results,})
+                                              'results': results,
+                                              'dailyAttendances': dailyAttendances,
+                                              'attendances': attendances,
+                                              'data': zip(dailyAttendances,attendances)})
 
 def course_announcement(request, course_id):
     announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
