@@ -62,7 +62,7 @@ class Result(models.Model):
     resultType = models.ForeignKey(ResultType, on_delete=models.CASCADE,)
     resultStudentId = models.ForeignKey(User, on_delete=models.CASCADE,)
     resultStudentMark = models.IntegerField(default=0, validators=[MaxValueValidator(100), MinValueValidator(0)])
-    resultFeedback = models.TextField(max_length=4000)
+    resultFeedback = models.CharField(max_length=255, default="")
     resultReturnedDate = models.DateTimeField(auto_now_add=True)
     resultCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
     resultName = models.CharField(max_length=255)
