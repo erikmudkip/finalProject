@@ -9,7 +9,7 @@ from django.forms import formset_factory
 
 import datetime
 
-from .models import Institution, Attendance, DailyAttendance, AttendanceStatus, Announcement, Course, Result, ResultType
+from .models import Institution, Attendance, DailyAttendance, AttendanceStatus, Announcement, Course, Result, ResultType, AssigntmentDeadline, ExamDate
 from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm
 
 
@@ -113,3 +113,10 @@ def post_course_result(request, course_id):
                                                       'formset': formset,
                                                       'form': form,
                                                       'data': zip(students, formset)})
+
+def course_calendar(request, course_id):
+    exams = get_list_or_404(ExamDate.objects.order_by('-examDateDate'), examDateCourse=course_id)
+    assigntments = get_list_or_404(AssigntmentDeadline.objects.order_by('-assigntmentDeadlineDueDate'), assigntmentDeadlineCourse=course_id)
+    return render(request, 'calendar.html', {'exams': exams,
+                                            'assigntments': assigntments,
+                                            'course_id': course_id,})

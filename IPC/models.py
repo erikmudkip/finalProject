@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
-import datetime
+from datetime import datetime
 
 class Institution(models.Model):
     institutionName = models.CharField(max_length=255)
@@ -67,6 +67,27 @@ class Result(models.Model):
     resultCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
     resultName = models.CharField(max_length=255)
 
-
     def __str__(self):
         return str(self.resultStudentId)
+
+class AssigntmentDeadline(models.Model):
+    assigntmentDeadlineDatePosted = models.DateTimeField(auto_now_add=True)
+    assigntmentDeadlinePosterId = models.ForeignKey(User, on_delete=models.CASCADE,)
+    assigntmentDeadlineMemo = models.TextField(max_length=4000)
+    assigntmentDeadlineCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
+    assigntmentDeadlineTitle = models.CharField(max_length=255)
+    assigntmentDeadlineDueDate = models.DateTimeField(default=datetime.now())
+
+    def __str__(self):
+        return str(self.assigntmentDeadlineTitle)
+
+class ExamDate(models.Model):
+    examDateDatePosted = models.DateTimeField(auto_now_add=True)
+    examDatePosterId = models.ForeignKey(User, on_delete=models.CASCADE,)
+    examDateMemo = models.TextField(max_length=4000)
+    examDateCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
+    examDateTitle = models.CharField(max_length=255)
+    examDateDate = models.DateTimeField(default=datetime.now())
+
+    def __str__(self):
+        return str(self.calendarHeading)
