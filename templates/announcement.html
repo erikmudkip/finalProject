@@ -10,9 +10,11 @@
 {% endblock %}
 
 {% block content %}
+  {% if user_type == "teacher" %}
   <div class="mb-4">
     <a class="btn btn-primary" href="{% url 'create_course_announcement' course_id=course_id %}">Create Announcement</a>
   </div>
+  {% endif %}
   <table class="table">
     <thead class="thead-dark">
       <tr>

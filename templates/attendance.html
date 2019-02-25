@@ -10,27 +10,48 @@
 {% endblock %}
 
 {% block content %}
-  <div class="mb-4">
-    <a class="btn btn-primary" href="{% url 'create_course_attendance' course_id=course_id %}">Create Attendance</a>
-  </div>
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th>Course</th>
-        <th>Date Taken</th>
-        <th>Teacher</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for attendance in attendances %}
+  {% if user_type == "teacher" %}
+    <div class="mb-4">
+      <a class="btn btn-primary" href="{% url 'create_course_attendance' course_id=course_id %}">Create Attendance</a>
+    </div>
+    <table class="table">
+      <thead class="thead-dark">
         <tr>
-          <td>{{ attendance.attendanceCourseId }}</td>
-          <td>{{ attendance.attendanceDate }}</td>
-          <td>{{ attendance.attendanceTeacherId }}</td>
-          <td><a class="btn btn-primary" href="{% url 'course_attendance_detail' course_id=course_id attendance_id=attendance.id %}">Check Details</a></td>
+          <th>Course</th>
+          <th>Date Taken</th>
+          <th>Teacher</th>
+          <th></th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for attendance in attendances %}
+          <tr>
+            <td>{{ attendance.attendanceCourseId }}</td>
+            <td>{{ attendance.attendanceDate }}</td>
+            <td>{{ attendance.attendanceTeacherId }}</td>
+            <td><a class="btn btn-primary" href="{% url 'course_attendance_detail' course_id=course_id attendance_id=attendance.id %}">Check Details</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% elif user_type == "student" %}
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Attendance Taker</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dailyAttendance, attendances in data %}
+          <tr>
+            <td>{{ attendances.attendanceDate }}</td>
+            <td>{{ dailyAttendance.dailyAttendanceStudentStatus }}</td>
+            <td>{{ attendances.attendanceTeacherId }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
 {% endblock %}
