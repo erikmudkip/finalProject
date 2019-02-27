@@ -19,10 +19,19 @@ class Course(models.Model):
     def __str__(self):
         return self.courseCode
 
+class Subject(models.Model):
+    subjectName = models.CharField(max_length=255)
+    subjectCourse = models.ForeignKey(Course, on_delete=models.CASCADE)
+    subjectTeacherId = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.subjectName
+
 class Attendance(models.Model):
     attendanceDate = models.DateTimeField(auto_now_add=True)
     attendanceTeacherId = models.ForeignKey(User, on_delete=models.CASCADE, related_name='attendance_taker')
     attendanceCourseId = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='current_course')
+    attendanceSubject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.attendanceDate)
@@ -61,11 +70,12 @@ class ResultType(models.Model):
 class Result(models.Model):
     resultType = models.ForeignKey(ResultType, on_delete=models.CASCADE,)
     resultStudentId = models.ForeignKey(User, on_delete=models.CASCADE,)
-    resultStudentMark = models.IntegerField(default=0, validators=[MaxValueValidator(100), MinValueValidator(0)])
-    resultFeedback = models.CharField(max_length=255, default="")
+    resultStudentMark = models.IntegerField(default=0, validators=[MaxValueValidator(100), MinValueValidator(0)], null=True)
+    resultFeedback = models.CharField(max_length=255, default="", blank=True, null=True)
     resultReturnedDate = models.DateTimeField(auto_now_add=True)
     resultCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
     resultName = models.CharField(max_length=255)
+    resultSubject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.resultStudentId)

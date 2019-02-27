@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import Institution
 from .models import Course
+from .models import Subject
 from .models import Attendance
 from .models import DailyAttendance
 from .models import AttendanceStatus
@@ -14,6 +15,7 @@ from .models import ExamDate
 
 admin.site.register(Institution)
 admin.site.register(Course)
+admin.site.register(Subject)
 admin.site.register(Attendance)
 admin.site.register(DailyAttendance)
 admin.site.register(AttendanceStatus)

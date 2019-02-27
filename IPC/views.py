@@ -9,7 +9,7 @@ from django.forms import formset_factory
 
 import datetime
 
-from .models import Institution, Attendance, DailyAttendance, AttendanceStatus, Announcement, Course, Result, ResultType, AssigntmentDeadline, ExamDate
+from .models import Institution, Subject, Attendance, DailyAttendance, AttendanceStatus, Announcement, Course, Result, ResultType, AssigntmentDeadline, ExamDate
 from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm
 
 def course(request):
@@ -88,13 +88,14 @@ def course_attendance(request, course_id):
 
 def create_course_attendance(request, course_id):
     course = get_object_or_404(Course, id=course_id)
+    currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
     studentStatusFormSet = formset_factory(NewAttendanceForm, extra=studentNumber, max_num=500)
     if request.method == 'POST':
         formset = studentStatusFormSet(request.POST)
         if formset.is_valid():
-            attendance = Attendance.objects.create(attendanceTeacherId=request.user, attendanceCourseId=course)
+            attendance = Attendance.objects.create(attendanceTeacherId=request.user, attendanceCourseId=course, attendanceSubject=currentSubject)
             attendanceId = Attendance.objects.order_by('-pk')[0]
             studentFormDatas = zip(students,formset)
             for student, form in studentFormDatas:
@@ -128,7 +129,6 @@ def course_result(request, course_id):
     elif user_type == "teacher":
         name = Result.objects.order_by('-pk')[0]
         results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=name.resultStudentId)
-        print(results)
         return render(request, 'result.html', {'results': results,
                                                'user_type': user_type,
                                                'course_id': course_id,})
@@ -141,6 +141,7 @@ def course_result_detail(request, course_id, result_id):
 
 def post_course_result(request, course_id):
     course = get_object_or_404(Course, id=course_id)
+    currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
     studentMarkFormSet = formset_factory(NewResultMarkForm, extra=studentNumber, max_num=500)
@@ -156,7 +157,9 @@ def post_course_result(request, course_id):
                 if formset.is_valid():
                     resultStudentMarkInput = formse.cleaned_data.get('resultStudentMarkInput')
                     resultFeedbackInput = formse.cleaned_data.get('resultFeedbackInput')
-                    courseResult = Result.objects.create(resultType = typeOfResult, resultStudentId = student, resultStudentMark = resultStudentMarkInput, resultFeedback = resultFeedbackInput, resultCourse = course, resultName = resultNameInput)
+                    courseResult = Result.objects.create(resultSubject = currentSubject, resultType = typeOfResult, resultStudentId = student, resultStudentMark = resultStudentMarkInput, resultFeedback = resultFeedbackInput, resultCourse = course, resultName = resultNameInput)
+            announcementMessege = "The " + str(typeOfResult) + " result of " + str(resultNameInput) + " is now available!"
+            announcementPost = Announcement.objects.create(announcementPosterId = request.user, announcementCourse = course, announcementFeed = announcementMessege)
         return redirect('course_result', course_id=course_id)
     else:
         form = NewResultForm()

@@ -18,6 +18,7 @@
       <thead class="thead-dark">
         <tr>
           <th>Course</th>
+          <th>Subject</th>
           <th>Date Taken</th>
           <th>Teacher</th>
           <th></th>
@@ -27,6 +28,7 @@
         {% for attendance in attendances %}
           <tr>
             <td>{{ attendance.attendanceCourseId }}</td>
+            <td>{{ attendance.attendanceSubject }}</td>
             <td>{{ attendance.attendanceDate }}</td>
             <td>{{ attendance.attendanceTeacherId }}</td>
             <td><a class="btn btn-primary" href="{% url 'course_attendance_detail' course_id=course_id attendance_id=attendance.id %}">Check Details</a></td>
@@ -38,6 +40,7 @@
     <table class="table">
       <thead class="thead-dark">
         <tr>
+          <th>Subject</th>
           <th>Date</th>
           <th>Status</th>
           <th>Attendance Taker</th>
@@ -46,6 +49,7 @@
       <tbody>
         {% for dailyAttendance, attendances in data %}
           <tr>
+            <td>{{ attendances.attendanceSubject }}</td>
             <td>{{ attendances.attendanceDate }}</td>
             <td>{{ dailyAttendance.dailyAttendanceStudentStatus }}</td>
             <td>{{ attendances.attendanceTeacherId }}</td>
