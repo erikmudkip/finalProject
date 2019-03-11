@@ -23,7 +23,7 @@
               <a class="nav-item nav-link" href="{% url 'course_announcement' course_id=course_id %}">Announcement</a>
               <a class="nav-item nav-link" href="{% url 'course_attendance' course_id=course_id %}">Attendance</a>
               <a class="nav-item nav-link" href="{% url 'course_result' course_id=course_id %}">Result</a>
-              <a class="nav-item nav-link" href="{% url 'course_calendar' course_id=course_id %}">Calendar</a>
+              <a class="nav-item nav-link" href="{% url 'course_material' course_id=course_id %}">Material</a>
             </div>
           </div>
           <div class="collapse navbar-collapse" id="mainMenu">
@@ -33,7 +33,6 @@
                   {{ user.username }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
                 </div>
               </li>

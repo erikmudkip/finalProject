@@ -2,7 +2,8 @@ from django import forms
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-from .models import Announcement, Attendance, DailyAttendance, AttendanceStatus, ResultType, Result
+
+from .models import Announcement, Attendance, DailyAttendance, AttendanceStatus, ResultType, Result, Material
 
 class NewAnnouncementForm(forms.ModelForm):
 
@@ -27,3 +28,9 @@ class NewResultMarkForm(forms.Form):
 
     resultStudentMarkInput = forms.IntegerField(initial=0, max_value=100, min_value=0)
     resultFeedbackInput = forms.CharField(max_length=255)
+
+class NewDocumentForm(forms.ModelForm):
+
+    class Meta:
+        model = Material
+        fields = ('materialTitle', 'materialDescription', 'materialDocument',)

@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 from accounts import views as accounts_views
 from IPC import views
@@ -35,5 +37,12 @@ urlpatterns = [
     path('<int:course_id>/result', views.course_result, name='course_result'),
     path('<int:course_id>/result/<int:result_id>/detail', views.course_result_detail, name='course_result_detail'),
     path('<int:course_id>/result/postResult', views.post_course_result, name='post_course_result'),
-    path('<int:course_id>/calendar', views.course_calendar, name='course_calendar'),
+    path('<int:course_id>/material', views.course_material, name='course_material'),
+    path('<int:course_id>/material/postMaterial', views.post_course_material, name='post_course_material'),
+    #path('<int:course_id>/material/<int:material_id>/discussion', views.post_course_result, name='post_course_result'),
+    #path('<int:course_id>/material/<int:material_id>/discussion/createDiscussion', views.post_course_result, name='post_course_result'),
+    #path('<int:course_id>/calendar', views.CalendarView.as_view(), name='calendar'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

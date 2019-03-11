@@ -9,8 +9,10 @@ from .models import AttendanceStatus
 from .models import Announcement
 from .models import ResultType
 from .models import Result
-from .models import AssigntmentDeadline
-from .models import ExamDate
+from .models import Material
+#from .models import AssigntmentDeadline
+#from .models import ExamDate
+#from .models import Event
 
 
 admin.site.register(Institution)
@@ -22,5 +24,7 @@ admin.site.register(AttendanceStatus)
 admin.site.register(Announcement)
 admin.site.register(ResultType)
 admin.site.register(Result)
-admin.site.register(AssigntmentDeadline)
-admin.site.register(ExamDate)
+admin.site.register(Material)
+#admin.site.register(AssigntmentDeadline)
+#admin.site.register(ExamDate)
+#admin.site.register(Event)

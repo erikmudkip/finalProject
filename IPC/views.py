@@ -5,12 +5,16 @@ from django.urls import reverse
 from django.utils import translation
 from django.contrib.auth.models import User, Group
 from django.forms import formset_factory
+from django.views import generic
+from django.utils.safestring import mark_safe
 
+from django.views.generic import ListView
 
-import datetime
+from datetime import datetime, date, time, timedelta
 
-from .models import Institution, Subject, Attendance, DailyAttendance, AttendanceStatus, Announcement, Course, Result, ResultType, AssigntmentDeadline, ExamDate
-from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm
+from .models import *
+from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm, NewDocumentForm
+#from .utils import Calendar
 
 def course(request):
     user = request.user
@@ -28,15 +32,14 @@ def course_statistic(request, course_id):
         user_type = "teacher"
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
-    results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user)
-    dailyAttendances = get_list_or_404(DailyAttendance.objects.order_by('-id'), dailyAttendanceStudentId=request.user)
-    attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'))
+    today = date.today()
+    #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
+    results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
+    announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7))
     return render(request, 'statistic.html', {'course_id': course_id,
                                               'results': results,
-                                              'dailyAttendances': dailyAttendances,
-                                              'attendances': attendances,
-                                              'user_type': user_type,
-                                              'data': zip(dailyAttendances,attendances)})
+                                              'announcements': announcements,
+                                              'user_type': user_type,})
 
 def course_announcement(request, course_id):
     user = request.user
@@ -44,14 +47,17 @@ def course_announcement(request, course_id):
         user_type = "teacher"
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
-    announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
+    #announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
+    announcements = list(Announcement.objects.filter(announcementCourse=course_id).order_by('-announcementDate'))
     return render(request, 'announcement.html', {'announcements': announcements,
                                                  'user_type': user_type,
                                                  'course_id': course_id,})
 
 def create_course_announcement(request, course_id):
-    announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
-    course = get_object_or_404(Course, id=course_id)
+    #announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
+    announcements = list(Announcement.objects.filter(announcementCourse=course_id).order_by('-announcementDate'))
+    #course = get_object_or_404(Course, id=course_id)
+    course = Course.objects.get(id=course_id)
     if request.method == 'POST':
         form = NewAnnouncementForm(request.POST)
         if form.is_valid():
@@ -72,13 +78,16 @@ def course_attendance(request, course_id):
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
     if user_type == "teacher":
-        attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'), attendanceCourseId=course_id)
+        #attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'), attendanceCourseId=course_id)
+        attendances = list(Attendance.objects.filter(attendanceCourseId=course_id).order_by('-attendanceDate'))
         return render(request, 'attendance.html', {'attendances': attendances,
                                                    'user_type': user_type,
                                                    'course_id': course_id,})
     elif user_type == "student":
-        dailyAttendances = get_list_or_404(DailyAttendance.objects.order_by('-id'), dailyAttendanceStudentId=request.user)
-        attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'))
+        #dailyAttendances = get_list_or_404(DailyAttendance.objects.order_by('-id'), dailyAttendanceStudentId=request.user)
+        dailyAttendances = list(DailyAttendance.objects.filter(dailyAttendanceStudentId=request.user).order_by('-id'))
+        #attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'))
+        attendances = list(Attendance.objects.order_by('-attendanceDate'))
         return render(request, 'attendance.html', {'dailyAttendances': dailyAttendances,
                                                    'attendances': attendances,
                                                    'user_type': user_type,
@@ -87,8 +96,10 @@ def course_attendance(request, course_id):
 
 
 def create_course_attendance(request, course_id):
-    course = get_object_or_404(Course, id=course_id)
-    currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
+    #course = get_object_or_404(Course, id=course_id)
+    course = Course.objects.get(id=course_id)
+    #currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
+    currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
     studentStatusFormSet = formset_factory(NewAttendanceForm, extra=studentNumber, max_num=500)
@@ -100,7 +111,8 @@ def create_course_attendance(request, course_id):
             studentFormDatas = zip(students,formset)
             for student, form in studentFormDatas:
                 studentStatus = form.cleaned_data.get('studentStatus')
-                statusTake = get_object_or_404(AttendanceStatus, id=studentStatus)
+                #statusTake = get_object_or_404(AttendanceStatus, id=studentStatus)
+                statusTake = AttendanceStatus.objects.get(id=studentStatus)
                 dailyattendance = DailyAttendance.objects.create(dailyAttendanceStudentId = student, dailyAttendanceStudentStatus = statusTake, dailyAttendanceAttendanceId = attendanceId)
         return redirect('course_attendance', course_id=course_id)
     else:
@@ -111,7 +123,8 @@ def create_course_attendance(request, course_id):
                                                       'data': zip(students, formset)})
 
 def course_attendance_detail(request, course_id, attendance_id):
-    attendancesDetails = get_list_or_404(DailyAttendance.objects.order_by('dailyAttendanceStudentId'), dailyAttendanceAttendanceId=attendance_id)
+    #attendancesDetails = get_list_or_404(DailyAttendance.objects.order_by('dailyAttendanceStudentId'), dailyAttendanceAttendanceId=attendance_id)
+    attendancesDetails = list(DailyAttendance.objects.filter(dailyAttendanceAttendanceId=attendance_id).order_by('dailyAttendanceStudentId'))
     return render(request, 'attendance_detail.html', {'attendancesDetails': attendancesDetails,
                                                       'course_id': course_id,})
 
@@ -122,26 +135,32 @@ def course_result(request, course_id):
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
     if user_type == "student":
-        results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user)
+        #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user)
+        results = list(Result.objects.filter(resultStudentId=request.user).order_by('-resultReturnedDate'))
         return render(request, 'result.html', {'results': results,
                                                'user_type': user_type,
                                                'course_id': course_id,})
     elif user_type == "teacher":
         name = Result.objects.order_by('-pk')[0]
-        results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=name.resultStudentId)
+        #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=name.resultStudentId)
+        results = list(Result.objects.filter(resultStudentId=name.resultStudentId).order_by('-resultReturnedDate'))
         return render(request, 'result.html', {'results': results,
                                                'user_type': user_type,
                                                'course_id': course_id,})
 
 def course_result_detail(request, course_id, result_id):
-    result_name = get_object_or_404(Result, id=result_id)
-    results = get_list_or_404(Result.objects.order_by('resultName'), resultName=result_name.resultName)
+    #result_name = get_object_or_404(Result, id=result_id)
+    result_name = Result.objects.get(id=result_id)
+    #results = get_list_or_404(Result.objects.order_by('resultName'), resultName=result_name.resultName)
+    results = list(Result.objects.filter(resultName=result_name.resultName).order_by('resultName'))
     return render(request, 'result_detail.html', {'results': results,
                                                   'course_id': course_id,})
 
 def post_course_result(request, course_id):
-    course = get_object_or_404(Course, id=course_id)
-    currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
+    #course = get_object_or_404(Course, id=course_id)
+    course = Course.objects.get(id=course_id)
+    #currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
+    currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
     studentMarkFormSet = formset_factory(NewResultMarkForm, extra=studentNumber, max_num=500)
@@ -152,7 +171,8 @@ def post_course_result(request, course_id):
             resultTypeInput = form.cleaned_data.get('resultTypeInput')
             resultNameInput = form.cleaned_data.get('resultNameInput')
             studentFormDatas = zip(students,formset)
-            typeOfResult = get_object_or_404(ResultType, id=resultTypeInput)
+            #typeOfResult = get_object_or_404(ResultType, id=resultTypeInput)
+            typeOfResult = ResultType.objects.get(id=resultTypeInput)
             for student, formse in studentFormDatas:
                 if formset.is_valid():
                     resultStudentMarkInput = formse.cleaned_data.get('resultStudentMarkInput')
@@ -170,15 +190,66 @@ def post_course_result(request, course_id):
                                                   'form': form,
                                                   'data': zip(students, formset)})
 
-def course_calendar(request, course_id):
-    user = request.user
-    if user.groups.filter(name='Teacher').exists():
-        user_type = "teacher"
-    elif user.groups.filter(name='Student').exists():
-        user_type = "student"
-    exams = get_list_or_404(ExamDate.objects.order_by('-examDateDate'), examDateCourse=course_id)
-    assigntments = get_list_or_404(AssigntmentDeadline.objects.order_by('-assigntmentDeadlineDueDate'), assigntmentDeadlineCourse=course_id)
-    return render(request, 'calendar.html', {'exams': exams,
-                                             'assigntments': assigntments,
-                                             'user_type': user_type,
-                                             'course_id': course_id,})
+
+def course_material(request, course_id):
+    materials = list(Material.objects.filter(materialCourse=course_id).order_by('-materialUploadTime'))
+    return render(request, 'material.html', {'course_id': course_id,
+                                              'materials': materials,})
+
+def post_course_material(request, course_id):
+    course = Course.objects.get(id=course_id)
+    currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
+    if request.method == 'POST':
+        form = NewDocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            document = form.save(commit=False)
+            document.materialCourse = course
+            document.materialSubject =  currentSubject
+            document.materialPosterId = request.user
+            document.save()
+            return redirect('course_material', course_id=course_id)
+    else:
+        form = NewDocumentForm()
+    return render(request, 'create_material.html', {'course_id': course_id,
+                                                    'form': form})
+
+
+
+#def course_calendar(request, course_id):
+#    user = request.user
+#    if user.groups.filter(name='Teacher').exists():
+#        user_type = "teacher"
+#    elif user.groups.filter(name='Student').exists():
+#        user_type = "student"
+#    #exams = get_list_or_404(ExamDate.objects.order_by('-examDateDate'), examDateCourse=course_id)
+#    exams = list(ExamDate.objects.filter(examDateCourse=course_id).order_by('-examDateDate'))
+#    #assigntments = get_list_or_404(AssigntmentDeadline.objects.order_by('-assigntmentDeadlineDueDate'), assigntmentDeadlineCourse=course_id)
+#    assigntments = list(AssigntmentDeadline.objects.filter(assigntmentDeadlineCourse=course_id).order_by('-assigntmentDeadlineDueDate'))
+#    return render(request, 'calendar.html', {'exams': exams,
+#                                             'assigntments': assigntments,
+#                                             'user_type': user_type,
+#                                             'course_id': course_id,})
+
+#class CalendarView(generic.ListView):
+#    model = Event
+#    template_name = 'calendar.html'
+
+#    def get_context_data(self, **kwargs):
+#        context = super().get_context_data(**kwargs)
+
+        # use today's date for the calendar
+#        d = get_date(self.request.GET.get('day', None))
+
+#        # Instantiate our calendar class with today's year and date
+#        cal = Calendar(d.year, d.month)
+
+        # Call the formatmonth method, which returns our calendar as a table
+#        html_cal = cal.formatmonth(withyear=True)
+#        context['calendar'] = mark_safe(html_cal)
+#        return context
+
+#def get_date(req_day):
+#    if req_day:
+#        year, month = (int(x) for x in req_day.split('-'))
+#        return date(year, month, day=1)
+#    return datetime.today()
