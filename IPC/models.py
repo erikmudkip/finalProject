@@ -92,6 +92,17 @@ class Material(models.Model):
     def __str__(self):
         return str(self.materialTitle)
 
+class Discussion(models.Model):
+    discussionMaterial = models.ForeignKey(Material, on_delete=models.CASCADE,)
+    discussionPost = models.TextField(max_length=4000)
+    discussionCreatedTime = models.DateTimeField(auto_now_add=True)
+    discussionUpdatedTime = models.DateTimeField(null=True)
+    discussionPoster = models.ForeignKey(User, on_delete=models.CASCADE,)
+    discussionCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
+
+    def __str__(self):
+        return str(self.discussionPost)
+
 #class Event(models.Model):
 #    title = models.CharField(max_length=200)
 #    description = models.TextField()

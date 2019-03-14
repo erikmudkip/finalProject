@@ -7,15 +7,16 @@ from django.contrib.auth.models import User, Group
 from django.forms import formset_factory
 from django.views import generic
 from django.utils.safestring import mark_safe
-
-from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, UpdateView
 
 from datetime import datetime, date, time, timedelta
 
 from .models import *
-from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm, NewDocumentForm
+from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm, NewDocumentForm, NewDiscussionForm
 #from .utils import Calendar
 
+@login_required
 def course(request):
     user = request.user
     if user.groups.filter(name='Teacher').exists():
@@ -26,6 +27,8 @@ def course(request):
     return render(request, 'course.html', {'courses': courses,
                                            'user_type': user_type,})
 
+
+@login_required
 def course_statistic(request, course_id):
     user = request.user
     if user.groups.filter(name='Teacher').exists():
@@ -41,6 +44,8 @@ def course_statistic(request, course_id):
                                               'announcements': announcements,
                                               'user_type': user_type,})
 
+
+@login_required
 def course_announcement(request, course_id):
     user = request.user
     if user.groups.filter(name='Teacher').exists():
@@ -53,6 +58,8 @@ def course_announcement(request, course_id):
                                                  'user_type': user_type,
                                                  'course_id': course_id,})
 
+
+@login_required
 def create_course_announcement(request, course_id):
     #announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
     announcements = list(Announcement.objects.filter(announcementCourse=course_id).order_by('-announcementDate'))
@@ -71,6 +78,8 @@ def create_course_announcement(request, course_id):
     return render(request, 'create_announcement.html', {'course_id': course_id,
                                                         'form': form})
 
+
+@login_required
 def course_attendance(request, course_id):
     user = request.user
     if user.groups.filter(name='Teacher').exists():
@@ -95,6 +104,7 @@ def course_attendance(request, course_id):
                                                    'data': zip(dailyAttendances,attendances)})
 
 
+@login_required
 def create_course_attendance(request, course_id):
     #course = get_object_or_404(Course, id=course_id)
     course = Course.objects.get(id=course_id)
@@ -122,12 +132,16 @@ def create_course_attendance(request, course_id):
                                                       'formset': formset,
                                                       'data': zip(students, formset)})
 
+
+@login_required
 def course_attendance_detail(request, course_id, attendance_id):
     #attendancesDetails = get_list_or_404(DailyAttendance.objects.order_by('dailyAttendanceStudentId'), dailyAttendanceAttendanceId=attendance_id)
     attendancesDetails = list(DailyAttendance.objects.filter(dailyAttendanceAttendanceId=attendance_id).order_by('dailyAttendanceStudentId'))
     return render(request, 'attendance_detail.html', {'attendancesDetails': attendancesDetails,
                                                       'course_id': course_id,})
 
+
+@login_required
 def course_result(request, course_id):
     user = request.user
     if user.groups.filter(name='Teacher').exists():
@@ -148,6 +162,8 @@ def course_result(request, course_id):
                                                'user_type': user_type,
                                                'course_id': course_id,})
 
+
+@login_required
 def course_result_detail(request, course_id, result_id):
     #result_name = get_object_or_404(Result, id=result_id)
     result_name = Result.objects.get(id=result_id)
@@ -156,6 +172,8 @@ def course_result_detail(request, course_id, result_id):
     return render(request, 'result_detail.html', {'results': results,
                                                   'course_id': course_id,})
 
+
+@login_required
 def post_course_result(request, course_id):
     #course = get_object_or_404(Course, id=course_id)
     course = Course.objects.get(id=course_id)
@@ -191,11 +209,15 @@ def post_course_result(request, course_id):
                                                   'data': zip(students, formset)})
 
 
+
+@login_required
 def course_material(request, course_id):
     materials = list(Material.objects.filter(materialCourse=course_id).order_by('-materialUploadTime'))
     return render(request, 'material.html', {'course_id': course_id,
                                               'materials': materials,})
 
+
+@login_required
 def post_course_material(request, course_id):
     course = Course.objects.get(id=course_id)
     currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
@@ -214,6 +236,42 @@ def post_course_material(request, course_id):
                                                     'form': form})
 
 
+@login_required
+def material_discussion(request, course_id, material_id):
+    material = Course.objects.get(id=material_id)
+    discussions = list(Discussion.objects.filter(discussionMaterial = material_id, discussionCourse = course_id).order_by('-discussionCreatedTime'))
+    return render(request, 'discussion.html', {'course_id': course_id,
+                                                'material_id': material_id,
+                                             'material': material,
+                                             'discussions': discussions,})
+
+
+@login_required
+def post_material_discussion(request, course_id, material_id):
+    course = Course.objects.get(id=course_id)
+    material = Material.objects.get(id=material_id)
+    discussions = list(Discussion.objects.filter(discussionMaterial = material_id, discussionCourse = course_id).order_by('-discussionCreatedTime'))[:5]
+    if request.method == 'POST':
+        discussion = NewDiscussionForm(request.POST)
+        if form.is_valid():
+            discussion = form.save(commit=False)
+            discussion.discussionMaterial = material
+            discussion.discussionPoster = request.user
+            discussion.discussionCourse = course
+            discussion.save()
+            return redirect('material_discussion', course_id=course_id, material_id=material_id)
+    else:
+        form = NewDiscussionForm()
+    return render(request, 'create_discussion.html', {'course_id': course_id,
+                                                      'material_id': material_id,
+                                                      'discussions': discussions,
+                                                      'form': form})
+
+
+def edit_material_discussion(self, course_id, material_id, discussion_id):
+    discussion = Discussion.objects.get(id=discussion_id)
+    
+    return redirect('material_discussion', course_id=course_id, material_id=material_id)
 
 #def course_calendar(request, course_id):
 #    user = request.user

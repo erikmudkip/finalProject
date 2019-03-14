@@ -34,7 +34,7 @@
           <td>{{ material.materialPosterId }}</td>
           <td>{{ material.materialUploadTime }}</td>
           <td></td>
-          <td></td>
+          <td><a class="btn btn-primary" href="{% url 'material_discussion' course_id=course_id material_id=material.id  %}">Discussion</a></td>
         </tr>
       {% endfor %}
     </tbody>

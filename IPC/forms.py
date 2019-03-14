@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404, redirec
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-from .models import Announcement, Attendance, DailyAttendance, AttendanceStatus, ResultType, Result, Material
+from .models import Announcement, Attendance, DailyAttendance, AttendanceStatus, ResultType, Result, Material, Discussion
 
 class NewAnnouncementForm(forms.ModelForm):
 
@@ -34,3 +34,8 @@ class NewDocumentForm(forms.ModelForm):
     class Meta:
         model = Material
         fields = ('materialTitle', 'materialDescription', 'materialDocument',)
+
+class NewDiscussionForm(forms.ModelForm):
+    class Meta:
+        model = Discussion
+        fields = ['discussionPost', ]

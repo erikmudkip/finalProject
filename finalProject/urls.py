@@ -39,8 +39,9 @@ urlpatterns = [
     path('<int:course_id>/result/postResult', views.post_course_result, name='post_course_result'),
     path('<int:course_id>/material', views.course_material, name='course_material'),
     path('<int:course_id>/material/postMaterial', views.post_course_material, name='post_course_material'),
-    #path('<int:course_id>/material/<int:material_id>/discussion', views.post_course_result, name='post_course_result'),
-    #path('<int:course_id>/material/<int:material_id>/discussion/createDiscussion', views.post_course_result, name='post_course_result'),
+    path('<int:course_id>/material/<int:material_id>', views.material_discussion, name='material_discussion'),
+    path('<int:course_id>/material/<int:material_id>/createDiscussion', views.post_material_discussion, name='post_material_discussion'),
+    path('<int:course_id>/material/<int:material_id>/editDiscussion/<int:discussion_id>', views.edit_material_discussion, name='edit_material_discussion'),
     #path('<int:course_id>/calendar', views.CalendarView.as_view(), name='calendar'),
 ]
 

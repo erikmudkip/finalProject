@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-  <p><h5><span class="badge badge-primary">Results:</span></h5>
+  <h5><span class="badge badge-primary">Results:</span></h5>
   {% if results.all %}
     <table class="table">
       <thead class="thead-dark">
@@ -33,11 +33,11 @@
           </tr>
         {% endfor %}
       </tbody>
-    </table></p>
+    </table>
   {% else %}
-    no new result posted today!<br></p>
+    no new result posted today!<br>
   {% endif %}
-  <p><h5><span class="badge badge-primary">Announcements:</span></h5>
+  <h5><span class="badge badge-primary">Announcements:</span></h5>
   {% if announcements.all %}
     <table class="table">
       <thead class="thead-dark">
@@ -56,8 +56,8 @@
           </tr>
         {% endfor %}
       </tbody>
-    </table></p>
+    </table>
   {% else %}
-    no new announcement posted in the last 7 days!<br></p>
+    no new announcement posted in the last 7 days!<br>
   {% endif %}
 {% endblock %}
