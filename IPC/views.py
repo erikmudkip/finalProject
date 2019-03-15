@@ -9,6 +9,7 @@ from django.views import generic
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, UpdateView
+from django.views.static import serve
 
 from datetime import datetime, date, time, timedelta
 
@@ -35,14 +36,35 @@ def course_statistic(request, course_id):
         user_type = "teacher"
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
+    course = Course.objects.get(id=course_id)
     today = date.today()
+    if user_type == "student":
+        #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
+        results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
+        announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7))
+        return render(request, 'statistic.html', {'course_id': course_id,
+                                                  'results': results,
+                                                  'announcements': announcements,
+                                                  'user_type': user_type,})
+    elif user_type == "teacher":
+         students = list(User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student'))
+         return render(request, 'statistic.html', {'course_id': course_id,
+                                                   'students': students,
+                                                   'user_type': user_type,})
+
+
+@login_required
+def course_student_statistic(request, course_id, user_id):
+    course = Course.objects.get(id=course_id)
+    today = date.today()
+    student = User.objects.get(id=user_id)
     #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
-    results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
+    results = list(Result.objects.filter(resultStudentId=student.id, resultReturnedDate=today).order_by('-resultReturnedDate'))
     announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7))
-    return render(request, 'statistic.html', {'course_id': course_id,
-                                              'results': results,
-                                              'announcements': announcements,
-                                              'user_type': user_type,})
+    return render(request, 'student_statistic.html', {'course_id': course_id,
+                                                      'results': results,
+                                                      'announcements': announcements,
+                                                      'student': student,})
 
 
 @login_required
@@ -212,9 +234,15 @@ def post_course_result(request, course_id):
 
 @login_required
 def course_material(request, course_id):
+    user = request.user
+    if user.groups.filter(name='Teacher').exists():
+        user_type = "teacher"
+    elif user.groups.filter(name='Student').exists():
+        user_type = "student"
     materials = list(Material.objects.filter(materialCourse=course_id).order_by('-materialUploadTime'))
     return render(request, 'material.html', {'course_id': course_id,
-                                              'materials': materials,})
+                                              'materials': materials,
+                                              'user_type': user_type})
 
 
 @login_required
@@ -252,7 +280,7 @@ def post_material_discussion(request, course_id, material_id):
     material = Material.objects.get(id=material_id)
     discussions = list(Discussion.objects.filter(discussionMaterial = material_id, discussionCourse = course_id).order_by('-discussionCreatedTime'))[:5]
     if request.method == 'POST':
-        discussion = NewDiscussionForm(request.POST)
+        form = NewDiscussionForm(request.POST)
         if form.is_valid():
             discussion = form.save(commit=False)
             discussion.discussionMaterial = material
@@ -268,10 +296,29 @@ def post_material_discussion(request, course_id, material_id):
                                                       'form': form})
 
 
-def edit_material_discussion(self, course_id, material_id, discussion_id):
-    discussion = Discussion.objects.get(id=discussion_id)
-    
-    return redirect('material_discussion', course_id=course_id, material_id=material_id)
+def download(request,file_name):
+    file_path = settings.MEDIA_ROOT +'/'+ file_name
+    file_wrapper = FileWrapper(file(file_path,'rb'))
+    file_mimetype = mimetypes.guess_type(file_path)
+    response = HttpResponse(file_wrapper, content_type=file_mimetype )
+    response['X-Sendfile'] = file_path
+    response['Content-Length'] = os.stat(file_path).st_size
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file_name)
+    return response
+
+
+class edit_material_discussion(UpdateView):
+    model = Discussion
+    fields = ('discussionPost', )
+    template_name = 'edit_discussion.html'
+    pk_url_kwarg = 'discussion_id'
+    context_object_name = 'discussion'
+
+    def form_valid(self, form):
+        discussion = form.save(commit=False)
+        discussion.discussionUpdatedTime = datetime.now()
+        discussion.save()
+        return redirect('material_discussion', course_id=discussion.discussionCourse.pk, material_id=discussion.discussionMaterial.pk)
 
 #def course_calendar(request, course_id):
 #    user = request.user

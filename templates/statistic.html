@@ -10,54 +10,73 @@
 {% endblock %}
 
 {% block content %}
-  <h5><span class="badge badge-primary">Results:</span></h5>
-  {% if results.all %}
+  {% if user_type == "student" %}
+    <h5><span class="badge badge-primary">Results:</span></h5>
+    {% if results %}
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>Type</th>
+            <th>Result from</th>
+            <th>Mark</th>
+            <th>Date posted</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for result in results %}
+            <tr>
+              <td>{{ result.resultType }}</td>
+              <td>{{ result.resultName }}</td>
+              <td>{{ result.resultStudentMark }}</td>
+              <td>{{ result.resultReturnedDate }}</td>
+              <td>{{ result.resultFeedback }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      no new result posted today!<br>
+    {% endif %}
+    <h5><span class="badge badge-primary">Announcements:</span></h5>
+    {% if announcements.all %}
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>Date</th>
+            <th>Announcement</th>
+            <th>Announcement poster</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for announcement in announcements %}
+            <tr>
+              <td>{{ announcement.announcementDate }}</td>
+              <td>{{ announcement.announcementFeed }}</td>
+              <td>{{ announcement.announcementPosterId }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      no new announcement posted in the last 7 days!<br>
+    {% endif %}
+  {% elif user_type == "teacher" %}
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th>Type</th>
-          <th>Result from</th>
-          <th>Mark</th>
-          <th>Date posted</th>
-          <th>Feedback</th>
+          <th>Student Name</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        {% for result in results %}
+        {% for student in students %}
           <tr>
-            <td>{{ result.resultType }}</td>
-            <td>{{ result.resultName }}</td>
-            <td>{{ result.resultStudentMark }}</td>
-            <td>{{ result.resultReturnedDate }}</td>
-            <td>{{ result.resultFeedback }}</td>
+            <td>{{ student.username }}</td>
+            <td><a class="btn btn-primary" href="{% url 'course_student_statistic' course_id=course_id user_id=student.id %}">Check Details</a></td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
-  {% else %}
-    no new result posted today!<br>
-  {% endif %}
-  <h5><span class="badge badge-primary">Announcements:</span></h5>
-  {% if announcements.all %}
-    <table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th>Date</th>
-          <th>Announcement</th>
-          <th>Announcement poster</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for announcement in announcements %}
-          <tr>
-            <td>{{ announcement.announcementDate }}</td>
-            <td>{{ announcement.announcementFeed }}</td>
-            <td>{{ announcement.announcementPosterId }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    no new announcement posted in the last 7 days!<br>
   {% endif %}
 {% endblock %}

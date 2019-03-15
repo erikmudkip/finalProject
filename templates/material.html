@@ -10,15 +10,16 @@
 {% endblock %}
 
 {% block content %}
-  <div class="mb-4">
-    <a class="btn btn-primary" href="{% url 'post_course_material' course_id=course_id %}">Post Material</a>
-  </div>
+  {% if user_type == "teacher" %}
+    <div class="mb-4">
+      <a class="btn btn-primary" href="{% url 'post_course_material' course_id=course_id %}">Post Material</a>
+    </div>
+  {% endif %}
   <table class="table">
     <thead class="thead-dark">
       <tr>
         <th>Material title</th>
         <th>Material description</th>
-        <th>Material file</th>
         <th>Material poster</th>
         <th>Material posted time</th>
         <th>Material download</th>
@@ -30,10 +31,9 @@
         <tr>
           <td>{{ material.materialTitle }}</td>
           <td>{{ material.materialDescription }}</td>
-          <td>{{ material.materialDocument }}</td>
           <td>{{ material.materialPosterId }}</td>
           <td>{{ material.materialUploadTime }}</td>
-          <td></td>
+          <td><a class="btn btn-primary" href="/media/{{material.materialDocument}}" style="text-decoration:None">Download here</a></td>
           <td><a class="btn btn-primary" href="{% url 'material_discussion' course_id=course_id material_id=material.id  %}">Discussion</a></td>
         </tr>
       {% endfor %}

@@ -29,6 +29,7 @@ urlpatterns = [
     path('signup/', accounts_views.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('<int:course_id>/statistic', views.course_statistic, name='course_statistic'),
+    path('<int:course_id>/statistic/<int:user_id>/studentStatistic', views.course_student_statistic, name='course_student_statistic'),
     path('<int:course_id>/announcement', views.course_announcement, name='course_announcement'),
     path('<int:course_id>/announcement/createAnnouncement', views.create_course_announcement, name='create_course_announcement'),
     path('<int:course_id>/attendance', views.course_attendance, name='course_attendance'),
@@ -41,7 +42,7 @@ urlpatterns = [
     path('<int:course_id>/material/postMaterial', views.post_course_material, name='post_course_material'),
     path('<int:course_id>/material/<int:material_id>', views.material_discussion, name='material_discussion'),
     path('<int:course_id>/material/<int:material_id>/createDiscussion', views.post_material_discussion, name='post_material_discussion'),
-    path('<int:course_id>/material/<int:material_id>/editDiscussion/<int:discussion_id>', views.edit_material_discussion, name='edit_material_discussion'),
+    path('<int:course_id>/material/<int:material_id>/editDiscussion/<int:discussion_id>', views.edit_material_discussion.as_view(), name='edit_material_discussion'),
     #path('<int:course_id>/calendar', views.CalendarView.as_view(), name='calendar'),
 ]
 

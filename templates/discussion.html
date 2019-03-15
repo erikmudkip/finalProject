@@ -6,7 +6,7 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
-<li class="breadcrumb-item"><a href="{% url 'course_result' course_id=course_id %}">Material</a></li>
+<li class="breadcrumb-item"><a href="{% url 'course_material' course_id=course_id %}">Material</a></li>
 <li class="breadcrumb-item active">{{ material.materialTitle }}</li>
 {% endblock %}
 
@@ -35,7 +35,7 @@
             {{ discussion.discussionPost }}
             {% if discussion.discussionPoster == user %}
               <div class="mt-3">
-                <a href="#" class="btn btn-primary btn-sm" role="button">Edit</a>
+                <a href="{% url 'edit_material_discussion' course_id=course_id material_id=material_id discussion_id=discussion.id %}" class="btn btn-primary btn-sm" role="button">Edit</a>
               </div>
             {% endif %}
           </div>
