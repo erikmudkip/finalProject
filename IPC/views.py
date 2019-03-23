@@ -14,6 +14,7 @@ from django.views.static import serve
 from datetime import datetime, date, time, timedelta
 
 from .models import *
+from . import plots
 from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm, NewDocumentForm, NewDiscussionForm
 #from .utils import Calendar
 
@@ -42,10 +43,13 @@ def course_statistic(request, course_id):
         #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
         results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
         announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7))
+        username = request.user
+        plot = plots.plot1d(username)
         return render(request, 'statistic.html', {'course_id': course_id,
                                                   'results': results,
                                                   'announcements': announcements,
-                                                  'user_type': user_type,})
+                                                  'user_type': user_type,
+                                                  'plot': plot})
     elif user_type == "teacher":
          students = list(User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student'))
          return render(request, 'statistic.html', {'course_id': course_id,
@@ -61,9 +65,12 @@ def course_student_statistic(request, course_id, user_id):
     #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
     results = list(Result.objects.filter(resultStudentId=student.id, resultReturnedDate=today).order_by('-resultReturnedDate'))
     announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7))
+    username = student
+    plot = plots.plot1d(username)
     return render(request, 'student_statistic.html', {'course_id': course_id,
                                                       'results': results,
                                                       'announcements': announcements,
+                                                      'plot': plot,
                                                       'student': student,})
 
 

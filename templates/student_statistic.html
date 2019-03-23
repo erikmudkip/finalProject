@@ -5,12 +5,21 @@
 {% endblock %}
 
 {% block breadcrumb %}
+  {{block.super}}
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
   <li class="breadcrumb-item"><a href="{% url 'course_statistic' course_id=course_id %}">Statistic</a></li>
   <li class="breadcrumb-item active">{{ student.username }} statistic</li>
 {% endblock %}
 
 {% block content %}
+  <div class="container">
+    <div class="row" style="border: 1px solid black">
+      {# <div id="plot_container" class="col-md-8 col-md-offset-2">{{plot|safe}}</div>#}
+      <div class="col-md-12">{{plot|safe}}</div>
+    </div>
+  </div>
+
   <h5><span class="badge badge-primary">Results:</span></h5>
   {% if results %}
     <table class="table">
