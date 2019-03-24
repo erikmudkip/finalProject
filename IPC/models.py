@@ -28,7 +28,7 @@ class Subject(models.Model):
         return self.subjectName
 
 class Attendance(models.Model):
-    attendanceDate = models.DateField(auto_now_add=True)
+    attendanceDate = models.DateTimeField(auto_now_add=True)
     attendanceTeacherId = models.ForeignKey(User, on_delete=models.CASCADE, related_name='attendance_taker')
     attendanceCourseId = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='current_course')
     attendanceSubject = models.ForeignKey(Subject, on_delete=models.CASCADE)

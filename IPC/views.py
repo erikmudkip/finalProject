@@ -10,6 +10,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, UpdateView
 from django.views.static import serve
+from django.utils.timezone import utc
 
 from datetime import datetime, date, time, timedelta
 
@@ -118,8 +119,17 @@ def course_attendance(request, course_id):
     if user_type == "teacher":
         #attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'), attendanceCourseId=course_id)
         attendances = list(Attendance.objects.filter(attendanceCourseId=course_id).order_by('-attendanceDate'))
+        current_subject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
+        last_attendance = Attendance.objects.filter(attendanceTeacherId=request.user, attendanceCourseId=course_id, attendanceSubject=current_subject).last()
+        time_diff = (datetime.utcnow().replace(tzinfo=utc)-last_attendance.attendanceDate)
+        seconds = time_diff.total_seconds()
+        hours = seconds // 3600
+        lock = "lock"
+        if hours >= 1:
+            lock = "unlock"
         return render(request, 'attendance.html', {'attendances': attendances,
                                                    'user_type': user_type,
+                                                   'lock': lock,
                                                    'course_id': course_id,})
     elif user_type == "student":
         #dailyAttendances = get_list_or_404(DailyAttendance.objects.order_by('-id'), dailyAttendanceStudentId=request.user)

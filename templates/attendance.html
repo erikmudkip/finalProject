@@ -12,7 +12,11 @@
 {% block content %}
   {% if user_type == "teacher" %}
     <div class="mb-4">
-      <a class="btn btn-primary" href="{% url 'create_course_attendance' course_id=course_id %}">Create Attendance</a>
+      {% if lock == "lock" %}
+        <a class="btn btn-primary" disabled>Create Attendance</a>
+      {% elif lock == "unlock" %}
+        <a class="btn btn-primary" href="{% url 'create_course_attendance' course_id=course_id %}">Create Attendance</a>
+      {% endif %}
     </div>
     <table class="table">
       <thead class="thead-dark">
