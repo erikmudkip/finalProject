@@ -42,7 +42,7 @@ def course_statistic(request, course_id):
     if user_type == "student":
         #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
         results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
-        announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7))
+        announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id)
         username = request.user
         plot = plots.plot1d(username)
         return render(request, 'statistic.html', {'course_id': course_id,
@@ -64,7 +64,7 @@ def course_student_statistic(request, course_id, user_id):
     student = User.objects.get(id=user_id)
     #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
     results = list(Result.objects.filter(resultStudentId=student.id, resultReturnedDate=today).order_by('-resultReturnedDate'))
-    announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7))
+    announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id)
     username = student
     plot = plots.plot1d(username)
     return render(request, 'student_statistic.html', {'course_id': course_id,
@@ -125,7 +125,7 @@ def course_attendance(request, course_id):
         #dailyAttendances = get_list_or_404(DailyAttendance.objects.order_by('-id'), dailyAttendanceStudentId=request.user)
         dailyAttendances = list(DailyAttendance.objects.filter(dailyAttendanceStudentId=request.user).order_by('-id'))
         #attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'))
-        attendances = list(Attendance.objects.order_by('-attendanceDate'))
+        attendances = list(Attendance.objects.filter(attendanceCourseId=course_id).order_by('-attendanceDate'))
         return render(request, 'attendance.html', {'dailyAttendances': dailyAttendances,
                                                    'attendances': attendances,
                                                    'user_type': user_type,
@@ -184,9 +184,10 @@ def course_result(request, course_id):
                                                'user_type': user_type,
                                                'course_id': course_id,})
     elif user_type == "teacher":
-        name = Result.objects.order_by('-pk')[0]
+        subject = Subject.objects.get(subjectCourse=course_id, subjectTeacherId=request.user)
+        name = Result.objects.filter(resultCourse=course_id).first()
         #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=name.resultStudentId)
-        results = list(Result.objects.filter(resultStudentId=name.resultStudentId).order_by('-resultReturnedDate'))
+        results = list(Result.objects.filter(resultStudentId=name.resultStudentId, resultSubject=subject, resultCourse=course_id).order_by('-resultReturnedDate'))
         return render(request, 'result.html', {'results': results,
                                                'user_type': user_type,
                                                'course_id': course_id,})
@@ -222,7 +223,10 @@ def post_course_result(request, course_id):
             typeOfResult = ResultType.objects.get(id=resultTypeInput)
             for student, formse in studentFormDatas:
                 if formset.is_valid():
-                    resultStudentMarkInput = formse.cleaned_data.get('resultStudentMarkInput')
+                    if str(formse.cleaned_data.get('resultStudentMarkInput')) == "None":
+                        resultStudentMarkInput = 0
+                    else:
+                        resultStudentMarkInput = formse.cleaned_data.get('resultStudentMarkInput')
                     resultFeedbackInput = formse.cleaned_data.get('resultFeedbackInput')
                     courseResult = Result.objects.create(resultSubject = currentSubject, resultType = typeOfResult, resultStudentId = student, resultStudentMark = resultStudentMarkInput, resultFeedback = resultFeedbackInput, resultCourse = course, resultName = resultNameInput)
             announcementMessege = "The " + str(typeOfResult) + " result of " + str(resultNameInput) + " is now available!"
