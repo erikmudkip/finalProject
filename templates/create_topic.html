@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Create New Topic{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'institute_forum' course_id=course_id %}">Forum</a></li>
+  <li class="breadcrumb-item active">Create New Topic</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" class="mb-4">
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Create new Topic</button>
+  </form>
+{% endblock %}

@@ -19,12 +19,11 @@
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
               <a class="nav-item nav-link" href="{% url 'course' %}">Home<span class="sr-only">(current)</span></a>
-              <a class="nav-item nav-link" href="{% url 'course_statistic' course_id=course_id %}">Statistic</a>
-              <a class="nav-item nav-link" href="{% url 'course_announcement' course_id=course_id %}">Announcement</a>
-              <a class="nav-item nav-link" href="{% url 'course_attendance' course_id=course_id %}">Attendance</a>
-              <a class="nav-item nav-link" href="{% url 'course_result' course_id=course_id %}">Result</a>
-              <a class="nav-item nav-link" href="{% url 'course_material' course_id=course_id %}">Material</a>
-              <a class="nav-item nav-link" href="{% url 'institute_forum' course_id=course_id %}">Forum</a>
+              <a class="nav-item nav-link" href="{% url 'course_statistic' post.forumTopicPostTopic.forumTopicCourse.pk %}">Statistic</a>
+              <a class="nav-item nav-link" href="{% url 'course_announcement' post.forumTopicPostTopic.forumTopicCourse.pk %}">Announcement</a>
+              <a class="nav-item nav-link" href="{% url 'course_attendance' post.forumTopicPostTopic.forumTopicCourse.pk %}">Attendance</a>
+              <a class="nav-item nav-link" href="{% url 'course_result' post.forumTopicPostTopic.forumTopicCourse.pk %}">Result</a>
+              <a class="nav-item nav-link" href="{% url 'course_material' post.forumTopicPostTopic.forumTopicCourse.pk %}">Material</a>
             </div>
           </div>
           <div class="collapse navbar-collapse" id="mainMenu">

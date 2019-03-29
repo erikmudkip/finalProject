@@ -43,6 +43,12 @@ urlpatterns = [
     path('<int:course_id>/material/<int:material_id>', views.material_discussion, name='material_discussion'),
     path('<int:course_id>/material/<int:material_id>/createDiscussion', views.post_material_discussion, name='post_material_discussion'),
     path('<int:course_id>/material/<int:material_id>/editDiscussion/<int:discussion_id>', views.edit_material_discussion.as_view(), name='edit_material_discussion'),
+    path('<int:course_id>/forum', views.institute_forum, name='institute_forum'),
+    path('<int:course_id>/forum/createTopic', views.create_institute_topic, name='create_institute_topic'),
+    path('<int:course_id>/forum/deleteTopic/<int:topic_id>', views.delete_institute_topic, name='delete_institute_topic'),
+    path('<int:course_id>/forum/<int:topic_id>', views.topic_post, name='topic_post'),
+    path('<int:course_id>/forum/<int:topic_id>/post', views.post_topic_post, name='post_topic_post'),
+    path('<int:course_id>/forum/<int:topic_id>/editPost/<int:post_id>', views.edit_post_topic_post.as_view(), name='edit_post_topic_post'),
     #path('<int:course_id>/calendar', views.CalendarView.as_view(), name='calendar'),
 ]
 

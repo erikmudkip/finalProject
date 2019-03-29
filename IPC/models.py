@@ -76,6 +76,7 @@ class Result(models.Model):
     resultCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
     resultName = models.CharField(max_length=255)
     resultSubject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    resultOverallValue = models.IntegerField(default=0, validators=[MaxValueValidator(100), MinValueValidator(0)])
 
     def __str__(self):
         return str(self.resultStudentId)
@@ -103,38 +104,24 @@ class Discussion(models.Model):
     def __str__(self):
         return str(self.discussionPost)
 
-#class Event(models.Model):
-#    title = models.CharField(max_length=200)
-#    description = models.TextField()
-#    start_time = models.DateTimeField()
-#    end_time = models.DateTimeField()
+class ForumTopic(models.Model):
+    forumTopicName = models.CharField(max_length=255)
+    forumTopicDesc = models.TextField(max_length=4000)
+    forumTopicPoster = models.ForeignKey(User, on_delete=models.CASCADE,)
+    forumTopicPostedDate = models.DateTimeField(auto_now_add=True)
+    forumTopicInstitution = models.ForeignKey(Institution, on_delete=models.CASCADE,)
+    forumTopicFlag = models.IntegerField(default=0, validators=[MaxValueValidator(1), MinValueValidator(0)])
+    forumTopicCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
 
-#class Event(models.Model):
-#    eventTitle = models.CharField(max_length=200)
-#    eventDescription = models.TextField(max_length=4000)
-#    eventTime = models.DateTimeField()
-#    eventTimePosterId = models.ForeignKey(User, on_delete=models.CASCADE,)
-#    eventCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
-#    eventDatePosted = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.forumTopicName)
 
-#class AssigntmentDeadline(models.Model):
-#    assigntmentDeadlineDatePosted = models.DateTimeField(auto_now_add=True)
-#    assigntmentDeadlinePosterId = models.ForeignKey(User, on_delete=models.CASCADE,)
-#    assigntmentDeadlineMemo = models.TextField(max_length=4000)
-#    assigntmentDeadlineCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
-#    assigntmentDeadlineTitle = models.CharField(max_length=255)
-#    assigntmentDeadlineDueDate = models.DateTimeField(default=datetime.now())
-#
-#    def __str__(self):
-#        return str(self.assigntmentDeadlineTitle)
+class ForumTopicPost(models.Model):
+    forumTopicPostPost = models.TextField(max_length=4000)
+    forumTopicPostCreatedTime = models.DateTimeField(auto_now_add=True)
+    forumTopicPostUpdatedTime = models.DateTimeField(null=True)
+    forumTopicPostPoster = models.ForeignKey(User, on_delete=models.CASCADE,)
+    forumTopicPostTopic = models.ForeignKey(ForumTopic, on_delete=models.CASCADE,)
 
-#class ExamDate(models.Model):
-#    examDateDatePosted = models.DateTimeField(auto_now_add=True)
-#    examDatePosterId = models.ForeignKey(User, on_delete=models.CASCADE,)
-#    examDateMemo = models.TextField(max_length=4000)
-#    examDateCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
-#    examDateTitle = models.CharField(max_length=255)
-#    examDateDate = models.DateTimeField(default=datetime.now())
-#
-#    def __str__(self):
-#        return str(self.calendarHeading)
+    def __str__(self):
+        return str(self.forumTopicPostPoster)

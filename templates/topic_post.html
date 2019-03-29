@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ topic.forumTopicName }}{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+<li class="breadcrumb-item"><a href="{% url 'institute_forum' course_id=course_id %}">Forum</a></li>
+<li class="breadcrumb-item active">{{ topic.forumTopicName }}</li>
+{% endblock %}
+
+{% block content %}
+
+  <div class="mb-4">
+    <a href="{% url 'post_topic_post' course_id=course_id topic_id=topic_id %}" class="btn btn-primary" role="button">Post</a>
+  </div>
+
+  {% for topic_post in topic_posts %}
+    <div class="card mb-2">
+      <div class="card-body p-3">
+        <div class="row">
+          <div class="col-2">
+            <img src="{% static 'img/avatar.svg' %}" alt="{{ topic_post.forumTopicPostPoster }}" class="w-100">
+          </div>
+          <div class="col-10">
+            <div class="row mb-3">
+              <div class="col-6">
+                <strong class="text-muted">{{ topic_post.forumTopicPostPoster }}</strong>
+              </div>
+              <div class="col-6 text-right">
+                <small class="text-muted">{{ topic_post.forumTopicPostCreatedTime }}</small>
+              </div>
+            </div>
+            {{ topic_post.forumTopicPostPost }}
+            {% if topic_post.forumTopicPostPoster == user %}
+              <div class="mt-3">
+                <a href="{% url 'edit_post_topic_post' course_id=course_id topic_id=topic_id post_id=topic_post.id %}" class="btn btn-primary btn-sm" role="button">Edit</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+{% endblock %}

@@ -2,7 +2,7 @@
 
 {% load widget_tweaks %}
 
-{% block title %}Start a New Announcement{% endblock %}
+{% block title %}Post a New Result{% endblock %}
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
@@ -15,7 +15,8 @@
     {% csrf_token %}
       {{ formset.management_form }}
       <p>Result of {{ form.resultTypeInput }}
-      Title of {{ form.resultNameInput }}</p>
+      Title of {{ form.resultNameInput }}
+      Overall Value {{ form.resultOverallValueInput }}</p>
       <table class="table">
         <thead class="thead-dark">
           <tr>

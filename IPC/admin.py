@@ -11,8 +11,8 @@ from .models import ResultType
 from .models import Result
 from .models import Material
 from .models import Discussion
-#from .models import AssigntmentDeadline
-#from .models import ExamDate
+from .models import ForumTopic
+from .models import ForumTopicPost
 #from .models import Event
 
 
@@ -27,6 +27,6 @@ admin.site.register(ResultType)
 admin.site.register(Result)
 admin.site.register(Material)
 admin.site.register(Discussion)
-#admin.site.register(AssigntmentDeadline)
-#admin.site.register(ExamDate)
+admin.site.register(ForumTopic)
+admin.site.register(ForumTopicPost)
 #admin.site.register(Event)

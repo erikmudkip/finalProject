@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404, redirec
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-from .models import Announcement, Attendance, DailyAttendance, AttendanceStatus, ResultType, Result, Material, Discussion
+from .models import *
 
 class NewAnnouncementForm(forms.ModelForm):
 
@@ -24,6 +24,7 @@ class NewResultForm(forms.Form):
 
     resultTypeInput = forms.ChoiceField(choices=RESULT_TYPE_LIST, initial=RESULT_TYPE_LIST[0], widget=forms.RadioSelect)
     resultNameInput = forms.CharField(max_length=255)
+    resultOverallValueInput = forms.IntegerField(initial=0, max_value=100, min_value=0)
 
 class NewResultMarkForm(forms.Form):
 
@@ -37,6 +38,19 @@ class NewDocumentForm(forms.ModelForm):
         fields = ('materialTitle', 'materialDescription', 'materialDocument',)
 
 class NewDiscussionForm(forms.ModelForm):
+
     class Meta:
         model = Discussion
         fields = ['discussionPost', ]
+
+class NewTopicForm(forms.ModelForm):
+
+    class Meta:
+        model = ForumTopic
+        fields = ('forumTopicName', 'forumTopicDesc')
+
+class NewTopicPostPost(forms.ModelForm):
+
+    class Meta:
+        model = ForumTopicPost
+        fields = ['forumTopicPostPost', ]

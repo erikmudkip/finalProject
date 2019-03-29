@@ -16,8 +16,7 @@ from datetime import datetime, date, time, timedelta
 
 from .models import *
 from . import plots
-from .forms import NewAnnouncementForm, NewAttendanceForm, NewResultForm, NewResultMarkForm, NewDocumentForm, NewDiscussionForm
-#from .utils import Calendar
+from .forms import *
 
 @login_required
 def course(request):
@@ -41,9 +40,8 @@ def course_statistic(request, course_id):
     course = Course.objects.get(id=course_id)
     today = date.today()
     if user_type == "student":
-        #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
         results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
-        announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id)
+        announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id).order_by('-announcementDate')
         username = request.user
         plot = plots.plot1d(username)
         return render(request, 'statistic.html', {'course_id': course_id,
@@ -63,9 +61,8 @@ def course_student_statistic(request, course_id, user_id):
     course = Course.objects.get(id=course_id)
     today = date.today()
     student = User.objects.get(id=user_id)
-    #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user, resultReturnedDate=today)
     results = list(Result.objects.filter(resultStudentId=student.id, resultReturnedDate=today).order_by('-resultReturnedDate'))
-    announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id)
+    announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id).order_by('-announcementDate')
     username = student
     plot = plots.plot1d(username)
     return render(request, 'student_statistic.html', {'course_id': course_id,
@@ -82,7 +79,6 @@ def course_announcement(request, course_id):
         user_type = "teacher"
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
-    #announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
     announcements = list(Announcement.objects.filter(announcementCourse=course_id).order_by('-announcementDate'))
     return render(request, 'announcement.html', {'announcements': announcements,
                                                  'user_type': user_type,
@@ -91,9 +87,7 @@ def course_announcement(request, course_id):
 
 @login_required
 def create_course_announcement(request, course_id):
-    #announcements = get_list_or_404(Announcement.objects.order_by('-announcementDate'), announcementCourse=course_id)
     announcements = list(Announcement.objects.filter(announcementCourse=course_id).order_by('-announcementDate'))
-    #course = get_object_or_404(Course, id=course_id)
     course = Course.objects.get(id=course_id)
     if request.method == 'POST':
         form = NewAnnouncementForm(request.POST)
@@ -117,7 +111,6 @@ def course_attendance(request, course_id):
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
     if user_type == "teacher":
-        #attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'), attendanceCourseId=course_id)
         attendances = list(Attendance.objects.filter(attendanceCourseId=course_id).order_by('-attendanceDate'))
         current_subject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
         last_attendance = Attendance.objects.filter(attendanceTeacherId=request.user, attendanceCourseId=course_id, attendanceSubject=current_subject).last()
@@ -132,9 +125,7 @@ def course_attendance(request, course_id):
                                                    'lock': lock,
                                                    'course_id': course_id,})
     elif user_type == "student":
-        #dailyAttendances = get_list_or_404(DailyAttendance.objects.order_by('-id'), dailyAttendanceStudentId=request.user)
         dailyAttendances = list(DailyAttendance.objects.filter(dailyAttendanceStudentId=request.user).order_by('-id'))
-        #attendances = get_list_or_404(Attendance.objects.order_by('-attendanceDate'))
         attendances = list(Attendance.objects.filter(attendanceCourseId=course_id).order_by('-attendanceDate'))
         return render(request, 'attendance.html', {'dailyAttendances': dailyAttendances,
                                                    'attendances': attendances,
@@ -145,9 +136,7 @@ def course_attendance(request, course_id):
 
 @login_required
 def create_course_attendance(request, course_id):
-    #course = get_object_or_404(Course, id=course_id)
     course = Course.objects.get(id=course_id)
-    #currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
     currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
@@ -160,7 +149,6 @@ def create_course_attendance(request, course_id):
             studentFormDatas = zip(students,formset)
             for student, form in studentFormDatas:
                 studentStatus = form.cleaned_data.get('studentStatus')
-                #statusTake = get_object_or_404(AttendanceStatus, id=studentStatus)
                 statusTake = AttendanceStatus.objects.get(id=studentStatus)
                 dailyattendance = DailyAttendance.objects.create(dailyAttendanceStudentId = student, dailyAttendanceStudentStatus = statusTake, dailyAttendanceAttendanceId = attendanceId)
         return redirect('course_attendance', course_id=course_id)
@@ -174,7 +162,6 @@ def create_course_attendance(request, course_id):
 
 @login_required
 def course_attendance_detail(request, course_id, attendance_id):
-    #attendancesDetails = get_list_or_404(DailyAttendance.objects.order_by('dailyAttendanceStudentId'), dailyAttendanceAttendanceId=attendance_id)
     attendancesDetails = list(DailyAttendance.objects.filter(dailyAttendanceAttendanceId=attendance_id).order_by('dailyAttendanceStudentId'))
     return render(request, 'attendance_detail.html', {'attendancesDetails': attendancesDetails,
                                                       'course_id': course_id,})
@@ -188,7 +175,6 @@ def course_result(request, course_id):
     elif user.groups.filter(name='Student').exists():
         user_type = "student"
     if user_type == "student":
-        #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=request.user)
         results = list(Result.objects.filter(resultStudentId=request.user).order_by('-resultReturnedDate'))
         return render(request, 'result.html', {'results': results,
                                                'user_type': user_type,
@@ -196,7 +182,6 @@ def course_result(request, course_id):
     elif user_type == "teacher":
         subject = Subject.objects.get(subjectCourse=course_id, subjectTeacherId=request.user)
         name = Result.objects.filter(resultCourse=course_id).first()
-        #results = get_list_or_404(Result.objects.order_by('-resultReturnedDate'), resultStudentId=name.resultStudentId)
         results = list(Result.objects.filter(resultStudentId=name.resultStudentId, resultSubject=subject, resultCourse=course_id).order_by('-resultReturnedDate'))
         return render(request, 'result.html', {'results': results,
                                                'user_type': user_type,
@@ -205,9 +190,7 @@ def course_result(request, course_id):
 
 @login_required
 def course_result_detail(request, course_id, result_id):
-    #result_name = get_object_or_404(Result, id=result_id)
     result_name = Result.objects.get(id=result_id)
-    #results = get_list_or_404(Result.objects.order_by('resultName'), resultName=result_name.resultName)
     results = list(Result.objects.filter(resultName=result_name.resultName).order_by('resultName'))
     return render(request, 'result_detail.html', {'results': results,
                                                   'course_id': course_id,})
@@ -215,9 +198,7 @@ def course_result_detail(request, course_id, result_id):
 
 @login_required
 def post_course_result(request, course_id):
-    #course = get_object_or_404(Course, id=course_id)
     course = Course.objects.get(id=course_id)
-    #currentSubject = get_object_or_404(Subject, subjectCourse = course_id, subjectTeacherId = request.user)
     currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
@@ -228,8 +209,11 @@ def post_course_result(request, course_id):
         if form.is_valid():
             resultTypeInput = form.cleaned_data.get('resultTypeInput')
             resultNameInput = form.cleaned_data.get('resultNameInput')
+            if str(form.cleaned_data.get('resultOverallValueInput')) == "None":
+                resultOverallValueInput = 0
+            else:
+                resultOverallValueInput = form.cleaned_data.get('resultOverallValueInput')
             studentFormDatas = zip(students,formset)
-            #typeOfResult = get_object_or_404(ResultType, id=resultTypeInput)
             typeOfResult = ResultType.objects.get(id=resultTypeInput)
             for student, formse in studentFormDatas:
                 if formset.is_valid():
@@ -238,7 +222,7 @@ def post_course_result(request, course_id):
                     else:
                         resultStudentMarkInput = formse.cleaned_data.get('resultStudentMarkInput')
                     resultFeedbackInput = formse.cleaned_data.get('resultFeedbackInput')
-                    courseResult = Result.objects.create(resultSubject = currentSubject, resultType = typeOfResult, resultStudentId = student, resultStudentMark = resultStudentMarkInput, resultFeedback = resultFeedbackInput, resultCourse = course, resultName = resultNameInput)
+                    courseResult = Result.objects.create(resultOverallValue=resultOverallValueInput, resultSubject = currentSubject, resultType = typeOfResult, resultStudentId = student, resultStudentMark = resultStudentMarkInput, resultFeedback = resultFeedbackInput, resultCourse = course, resultName = resultNameInput)
             announcementMessege = "The " + str(typeOfResult) + " result of " + str(resultNameInput) + " is now available!"
             announcementPost = Announcement.objects.create(announcementPosterId = request.user, announcementCourse = course, announcementFeed = announcementMessege)
         return redirect('course_result', course_id=course_id)
@@ -316,7 +300,74 @@ def post_material_discussion(request, course_id, material_id):
                                                       'discussions': discussions,
                                                       'form': form})
 
+@login_required
+def institute_forum(request, course_id):
+    course = Course.objects.get(id=course_id)
+    forum_topics = list(ForumTopic.objects.filter(forumTopicInstitution = course.courseInstitution, forumTopicFlag = 0).order_by('-forumTopicPostedDate'))
+    return render(request, 'institution_forum.html', {'course_id': course_id,
+                                                    'forum_topics': forum_topics})
 
+
+@login_required
+def create_institute_topic(request, course_id):
+    course = Course.objects.get(id=course_id)
+    institution = Institution.objects.get(id=course.courseInstitution.id)
+    if request.method == 'POST':
+        form = NewTopicForm(request.POST)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.forumTopicPoster = request.user
+            topic.forumTopicInstitution = institution
+            topic.forumTopicFlag = 0
+            topic.save()
+            return redirect('institute_forum', course_id=course_id)
+    else:
+        form = NewTopicForm()
+    return render(request, 'create_topic.html', {'course_id': course_id,
+                                                      'form': form})
+
+
+@login_required
+def delete_institute_topic(request, course_id, topic_id):
+    topic = ForumTopic.objects.get(id=topic_id)
+    topic.forumTopicFlag = 1
+    topic.save()
+    return redirect('institute_forum', course_id=course_id)
+
+
+@login_required
+def topic_post(request, course_id, topic_id):
+    topic = ForumTopic.objects.get(id=topic_id)
+    topic_posts = list(ForumTopicPost.objects.filter(forumTopicPostTopic = topic_id).order_by('-forumTopicPostCreatedTime'))
+    return render(request, 'topic_post.html', {'course_id': course_id,
+                                                'topic_id': topic_id,
+                                                'topic': topic,
+                                                'topic_posts': topic_posts,})
+
+
+@login_required
+def post_topic_post(request, course_id, topic_id):
+    course = Course.objects.get(id=course_id)
+    topic = ForumTopic.objects.get(id=topic_id)
+    topic_posts = list(ForumTopicPost.objects.filter(forumTopicPostTopic = topic_id).order_by('-forumTopicPostCreatedTime'))[:5]
+    if request.method == 'POST':
+        form = NewTopicPostPost(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.forumTopicPostPoster = request.user
+            post.forumTopicPostTopic = topic
+            post.save()
+            return redirect('topic_post', course_id=course_id, topic_id=topic_id)
+    else:
+        form = NewTopicPostPost()
+    return render(request, 'post_topic_post.html', {'course_id': course_id,
+                                                      'topic_id': topic_id,
+                                                      'topic': topic,
+                                                      'topic_posts': topic_posts,
+                                                      'form': form})
+
+
+@login_required
 def download(request,file_name):
     file_path = settings.MEDIA_ROOT +'/'+ file_name
     file_wrapper = FileWrapper(file(file_path,'rb'))
@@ -341,41 +392,15 @@ class edit_material_discussion(UpdateView):
         discussion.save()
         return redirect('material_discussion', course_id=discussion.discussionCourse.pk, material_id=discussion.discussionMaterial.pk)
 
-#def course_calendar(request, course_id):
-#    user = request.user
-#    if user.groups.filter(name='Teacher').exists():
-#        user_type = "teacher"
-#    elif user.groups.filter(name='Student').exists():
-#        user_type = "student"
-#    #exams = get_list_or_404(ExamDate.objects.order_by('-examDateDate'), examDateCourse=course_id)
-#    exams = list(ExamDate.objects.filter(examDateCourse=course_id).order_by('-examDateDate'))
-#    #assigntments = get_list_or_404(AssigntmentDeadline.objects.order_by('-assigntmentDeadlineDueDate'), assigntmentDeadlineCourse=course_id)
-#    assigntments = list(AssigntmentDeadline.objects.filter(assigntmentDeadlineCourse=course_id).order_by('-assigntmentDeadlineDueDate'))
-#    return render(request, 'calendar.html', {'exams': exams,
-#                                             'assigntments': assigntments,
-#                                             'user_type': user_type,
-#                                             'course_id': course_id,})
+class edit_post_topic_post(UpdateView):
+    model = ForumTopicPost
+    fields = ('forumTopicPostPost', )
+    template_name = 'edit_post.html'
+    pk_url_kwarg = 'post_id'
+    context_object_name = 'post'
 
-#class CalendarView(generic.ListView):
-#    model = Event
-#    template_name = 'calendar.html'
-
-#    def get_context_data(self, **kwargs):
-#        context = super().get_context_data(**kwargs)
-
-        # use today's date for the calendar
-#        d = get_date(self.request.GET.get('day', None))
-
-#        # Instantiate our calendar class with today's year and date
-#        cal = Calendar(d.year, d.month)
-
-        # Call the formatmonth method, which returns our calendar as a table
-#        html_cal = cal.formatmonth(withyear=True)
-#        context['calendar'] = mark_safe(html_cal)
-#        return context
-
-#def get_date(req_day):
-#    if req_day:
-#        year, month = (int(x) for x in req_day.split('-'))
-#        return date(year, month, day=1)
-#    return datetime.today()
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.forumTopicPostUpdatedTime = datetime.now()
+        post.save()
+        return redirect('topic_post', course_id=post.forumTopicPostTopic.forumTopicCourse.pk, topic_id=post.forumTopicPostTopic.pk)

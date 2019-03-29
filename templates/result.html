@@ -16,6 +16,7 @@
         <tr>
           <th>Type</th>
           <th>Subject</th>
+          <th>Value</th>
           <th>Deliverables</th>
           <th>Mark</th>
           <th>Date posted</th>
@@ -27,6 +28,7 @@
           <tr>
             <td>{{ result.resultType }}</td>
             <td>{{ result.resultSubject }}</td>
+            <td>{{ result.resultOverallValue }}%</td>
             <td>{{ result.resultName }}</td>
             <td>{{ result.resultStudentMark }}</td>
             <td>{{ result.resultReturnedDate }}</td>
@@ -44,6 +46,7 @@
         <tr>
           <th>Type</th>
           <th>Subject</th>
+          <th>Value</th>
           <th>Deliverables</th>
           <th>Date posted</th>
           <th></th>
@@ -54,6 +57,7 @@
           <tr>
             <td>{{ result.resultType }}</td>
             <td>{{ result.resultSubject }}</td>
+            <td>{{ result.resultOverallValue }}%</td>
             <td>{{ result.resultName }}</td>
             <td>{{ result.resultReturnedDate }}</td>
             <td><a class="btn btn-primary" href="{% url 'course_result_detail' course_id=course_id result_id=result.id %}">Check Details</a></td>

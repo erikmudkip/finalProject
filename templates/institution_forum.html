@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Forum
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+  <li class="breadcrumb-item active">Forum</li>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <a class="btn btn-primary" href="{% url 'create_institute_topic' course_id=course_id %}">Create new topic</a>
+  </div>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Topic</th>
+        <th>Description</th>
+        <th>Poster</th>
+        <th>Created</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for forum_topic in forum_topics %}
+        <tr>
+          <td>{{ forum_topic.forumTopicName }}</td>
+          <td>{{ forum_topic.forumTopicDesc }}</td>
+          <td>{{ forum_topic.forumTopicPoster }}</td>
+          <td>{{ forum_topic.forumTopicPostedDate }}</td>
+          {% if forum_topic.forumTopicPoster == user %}
+            <td><a href="{% url 'delete_institute_topic' course_id=course_id topic_id=forum_topic.id %}" class="btn btn-primary btn-sm" role="button">Delete</a></td>
+          {% else %}
+            <td></td>
+          {% endif %}
+          <td><a href="{% url 'topic_post' course_id=course_id topic_id=forum_topic.id %}" class="btn btn-primary btn-sm" role="button">View</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

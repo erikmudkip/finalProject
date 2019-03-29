@@ -1,0 +1,18 @@
+{% extends 'base_post.html' %}
+
+{% block title %}Edit post{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'institute_forum' post.forumTopicPostTopic.forumTopicCourse.pk %}">Forum</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'topic_post' post.forumTopicPostTopic.forumTopicCourse.pk post.forumTopicPostTopic.pk %}">{{ post.forumTopicPostTopic.forumTopicName }}</a></li>
+  <li class="breadcrumb-item active">edit a Post</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Save changes</button>
+  </form>
+{% endblock %}

@@ -26,6 +26,8 @@
       <thead class="thead-dark">
         <tr>
           <th>Type</th>
+          <th>Subject</th>
+          <th>Value</th>
           <th>Result from</th>
           <th>Mark</th>
           <th>Date posted</th>
@@ -36,6 +38,8 @@
         {% for result in results %}
           <tr>
             <td>{{ result.resultType }}</td>
+            <td>{{ result.resultSubject }}</td>
+            <td>{{ result.resultOverallValue }}%</td>
             <td>{{ result.resultName }}</td>
             <td>{{ result.resultStudentMark }}</td>
             <td>{{ result.resultReturnedDate }}</td>
