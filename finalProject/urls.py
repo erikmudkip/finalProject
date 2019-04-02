@@ -28,7 +28,9 @@ urlpatterns = [
     path('course', views.course, name='course'),
     path('signup/', accounts_views.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('<int:course_id>/statistic/<int:subject_id>', views.course_statistic, name='course_statistic'),
     path('<int:course_id>/statistic', views.course_statistic, name='course_statistic'),
+    path('<int:course_id>/statistic/<int:user_id>/studentStatistic/<int:subject_id>', views.course_student_statistic, name='course_student_statistic'),
     path('<int:course_id>/statistic/<int:user_id>/studentStatistic', views.course_student_statistic, name='course_student_statistic'),
     path('<int:course_id>/announcement', views.course_announcement, name='course_announcement'),
     path('<int:course_id>/announcement/createAnnouncement', views.create_course_announcement, name='create_course_announcement'),
@@ -49,7 +51,7 @@ urlpatterns = [
     path('<int:course_id>/forum/<int:topic_id>', views.topic_post, name='topic_post'),
     path('<int:course_id>/forum/<int:topic_id>/post', views.post_topic_post, name='post_topic_post'),
     path('<int:course_id>/forum/<int:topic_id>/editPost/<int:post_id>', views.edit_post_topic_post.as_view(), name='edit_post_topic_post'),
-    #path('<int:course_id>/calendar', views.CalendarView.as_view(), name='calendar'),
+    path('calendar/', views.CalendarView.as_view(), name='calendar'),
 ]
 
 if settings.DEBUG:

@@ -29,7 +29,7 @@ class NewResultForm(forms.Form):
 class NewResultMarkForm(forms.Form):
 
     resultStudentMarkInput = forms.IntegerField(initial=0, max_value=100, min_value=0)
-    resultFeedbackInput = forms.CharField(max_length=255)
+    resultFeedbackInput = forms.CharField(max_length=255,initial="None")
 
 class NewDocumentForm(forms.ModelForm):
 

@@ -13,13 +13,29 @@
 
 {% block content %}
   {% if user_type == "student" %}
-    <div class="container">
-      <div class="row" style="border: 1px solid black">
-        {# <div id="plot_container" class="col-md-8 col-md-offset-2">{{plot|safe}}</div>#}
-        <div class="col-md-12">{{plot|safe}}</div>
+    <p class="big">
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Graph Choice
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li><a href="{% url 'course_statistic' course_id=course_id %}">Attendance</a></li>
+          {% for subject in subjects %}
+            <li><a href="{% url 'course_statistic' course_id=course_id subject_id=subject.id %}">{{ subject.subjectName }}</a></li>
+          {% endfor %}
+        </ul>
       </div>
-    </div>
+    </p>
 
+    <p class="big">
+      <div class="container">
+        <div class="row" style="border: 1px solid black">
+          {# <div id="plot_container" class="col-md-8 col-md-offset-2">{{plot|safe}}</div>#}
+          <div class="col-md-12">{{plot|safe}}</div>
+        </div>
+      </div>
+    </p>
+
+    <p class="big">
     <h5><span class="badge badge-primary">Results:</span></h5>
     {% if results %}
       <table class="table">
@@ -51,6 +67,8 @@
     {% else %}
       no new result posted today!<br>
     {% endif %}
+    </p>
+    <p class="big">
     <h5><span class="badge badge-primary">Announcements:</span></h5>
     {% if announcements.all %}
       <table class="table">
@@ -92,4 +110,5 @@
       </tbody>
     </table>
   {% endif %}
+  </p>
 {% endblock %}

@@ -13,10 +13,12 @@ from django.views.static import serve
 from django.utils.timezone import utc
 
 from datetime import datetime, date, time, timedelta
+from calendar import HTMLCalendar
 
 from .models import *
 from . import plots
 from .forms import *
+from .utils import Calendar
 
 @login_required
 def course(request):
@@ -31,7 +33,7 @@ def course(request):
 
 
 @login_required
-def course_statistic(request, course_id):
+def course_statistic(request, course_id, subject_id = "none"):
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
@@ -40,14 +42,20 @@ def course_statistic(request, course_id):
     course = Course.objects.get(id=course_id)
     today = date.today()
     if user_type == "student":
+        subjects = list(Subject.objects.filter(subjectCourse=course_id))
         results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
         announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id).order_by('-announcementDate')
         username = request.user
-        plot = plots.plot1d(username)
+        if subject_id == "none":
+            plot = plots.plotAttendance(username)
+        else:
+            subject = Subject.objects.get(pk=subject_id)
+            plot = plots.plotGrade(username, subject.pk, course_id)
         return render(request, 'statistic.html', {'course_id': course_id,
                                                   'results': results,
                                                   'announcements': announcements,
                                                   'user_type': user_type,
+                                                  'subjects': subjects,
                                                   'plot': plot})
     elif user_type == "teacher":
          students = list(User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student'))
@@ -57,17 +65,23 @@ def course_statistic(request, course_id):
 
 
 @login_required
-def course_student_statistic(request, course_id, user_id):
+def course_student_statistic(request, course_id, user_id, subject_id = "none"):
     course = Course.objects.get(id=course_id)
     today = date.today()
     student = User.objects.get(id=user_id)
     results = list(Result.objects.filter(resultStudentId=student.id, resultReturnedDate=today).order_by('-resultReturnedDate'))
     announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id).order_by('-announcementDate')
     username = student
-    plot = plots.plot1d(username)
+    subjects = list(Subject.objects.filter(subjectCourse=course_id))
+    if subject_id == "none":
+        plot = plots.plotAttendance(username)
+    else:
+        subject = Subject.objects.get(pk=subject_id)
+        plot = plots.plotGrade(username, subject.pk, course_id)
     return render(request, 'student_statistic.html', {'course_id': course_id,
                                                       'results': results,
                                                       'announcements': announcements,
+                                                      'subjects': subjects,
                                                       'plot': plot,
                                                       'student': student,})
 
@@ -114,12 +128,15 @@ def course_attendance(request, course_id):
         attendances = list(Attendance.objects.filter(attendanceCourseId=course_id).order_by('-attendanceDate'))
         current_subject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
         last_attendance = Attendance.objects.filter(attendanceTeacherId=request.user, attendanceCourseId=course_id, attendanceSubject=current_subject).last()
-        time_diff = (datetime.utcnow().replace(tzinfo=utc)-last_attendance.attendanceDate)
-        seconds = time_diff.total_seconds()
-        hours = seconds // 3600
-        lock = "lock"
-        if hours >= 1:
+        if not last_attendance:
             lock = "unlock"
+        else:
+            time_diff = (datetime.utcnow().replace(tzinfo=utc)-last_attendance.attendanceDate)
+            seconds = time_diff.total_seconds()
+            hours = seconds // 3600
+            lock = "lock"
+            if hours >= 1:
+                lock = "unlock"
         return render(request, 'attendance.html', {'attendances': attendances,
                                                    'user_type': user_type,
                                                    'lock': lock,
@@ -203,10 +220,12 @@ def post_course_result(request, course_id):
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
     studentMarkFormSet = formset_factory(NewResultMarkForm, extra=studentNumber, max_num=500)
+    print("in1")
     if request.method == 'POST':
         form = NewResultForm(request.POST)
         formset = studentMarkFormSet(request.POST)
         if form.is_valid():
+            print("in2")
             resultTypeInput = form.cleaned_data.get('resultTypeInput')
             resultNameInput = form.cleaned_data.get('resultNameInput')
             if str(form.cleaned_data.get('resultOverallValueInput')) == "None":
@@ -217,11 +236,13 @@ def post_course_result(request, course_id):
             typeOfResult = ResultType.objects.get(id=resultTypeInput)
             for student, formse in studentFormDatas:
                 if formset.is_valid():
+                    print("in3")
                     if str(formse.cleaned_data.get('resultStudentMarkInput')) == "None":
                         resultStudentMarkInput = 0
                     else:
                         resultStudentMarkInput = formse.cleaned_data.get('resultStudentMarkInput')
                     resultFeedbackInput = formse.cleaned_data.get('resultFeedbackInput')
+                    print("input"+str(resultFeedbackInput))
                     courseResult = Result.objects.create(resultOverallValue=resultOverallValueInput, resultSubject = currentSubject, resultType = typeOfResult, resultStudentId = student, resultStudentMark = resultStudentMarkInput, resultFeedback = resultFeedbackInput, resultCourse = course, resultName = resultNameInput)
             announcementMessege = "The " + str(typeOfResult) + " result of " + str(resultNameInput) + " is now available!"
             announcementPost = Announcement.objects.create(announcementPosterId = request.user, announcementCourse = course, announcementFeed = announcementMessege)
@@ -404,3 +425,29 @@ class edit_post_topic_post(UpdateView):
         post.forumTopicPostUpdatedTime = datetime.now()
         post.save()
         return redirect('topic_post', course_id=post.forumTopicPostTopic.forumTopicCourse.pk, topic_id=post.forumTopicPostTopic.pk)
+
+
+
+class CalendarView(generic.ListView):
+    model = Event
+    template_name = 'calendar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # use today's date for the calendar
+        d = get_date(self.request.GET.get('day', None))
+
+        # Instantiate our calendar class with today's year and date
+        cal = Calendar(d.year, d.month)
+
+        # Call the formatmonth method, which returns our calendar as a table
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        return context
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()
