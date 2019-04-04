@@ -126,3 +126,18 @@ class ForumTopicPost(models.Model):
 
     def __str__(self):
         return str(self.forumTopicPostPoster)
+
+class Event(models.Model):
+    eventTitle = models.CharField(max_length=255)
+    eventDescription = models.TextField(max_length=4000)
+    eventDate = models.DateField()
+    eventTime = models.TimeField()
+    eventCourse = models.ForeignKey(Course, on_delete=models.CASCADE,)
+
+    @property
+    def get_html_url(self):
+        url = reverse('course_event_edit', args=(self.id,))
+        return f'<a href="{url}"> {self.eventTitle} </a>'
+
+    def __str__(self):
+        return str(self.eventTitle)

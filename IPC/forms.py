@@ -55,3 +55,9 @@ class NewTopicPostPost(forms.ModelForm):
     class Meta:
         model = ForumTopicPost
         fields = ['forumTopicPostPost', ]
+
+class EventForm(forms.ModelForm):
+
+    class Meta:
+        model = Event
+        fields = ['eventTitle','eventDescription','eventDate','eventTime', ]

@@ -1,30 +1,23 @@
 {% load static %}<!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="utf-8">
     <title>{% block title %}IPC{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css?family=Aldrich" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% block stylesheet %}{% endblock %}
   </head>
   <body>
     {% block body %}
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-          <a class="navbar-brand" href="{% url 'course' %}">IPC</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-item nav-link" href="{% url 'course' %}">Home<span class="sr-only">(current)</span></a>
-              <a class="nav-item nav-link" href="{% url 'course_statistic' course_id=course_id %}">Analytics</a>
-              <a class="nav-item nav-link" href="{% url 'course_announcement' course_id=course_id %}">Announcements</a>
-              <a class="nav-item nav-link" href="{% url 'course_attendance' course_id=course_id %}">Attendances</a>
-              <a class="nav-item nav-link" href="{% url 'course_result' course_id=course_id %}">Results</a>
-              <a class="nav-item nav-link" href="{% url 'course_material' course_id=course_id %}">Materials</a>
-              <a class="nav-item nav-link" href="{% url 'institute_forum' course_id=course_id %}">Forum</a>
               <a class="nav-item nav-link" href="{% url 'calendar' %}">Calendar</a>
             </div>
           </div>
