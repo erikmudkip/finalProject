@@ -6,8 +6,8 @@
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'course_material' course_id=course_id %}">Material</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'material_discussion' course_id=course_id material_id=material_id %}">Discussion</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'course_material' course_id=course_id %}">Materials</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'material_discussion' course_id=course_id material_id=material_id %}">Discussions</a></li>
   <li class="breadcrumb-item active">Post a Discussion</li>
 {% endblock %}
 

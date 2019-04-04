@@ -4,8 +4,8 @@
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'course_material' discussion.discussionCourse.pk %}">Material</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'material_discussion' discussion.discussionCourse.pk discussion.discussionMaterial.pk %}">Discussion</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'course_material' discussion.discussionCourse.pk %}">Materials</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'material_discussion' discussion.discussionCourse.pk discussion.discussionMaterial.pk %}">Discussions</a></li>
   <li class="breadcrumb-item active">edit a Discussion</li>
 {% endblock %}
 

@@ -18,6 +18,7 @@ from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url
 
 from accounts import views as accounts_views
 from IPC import views
@@ -28,6 +29,7 @@ urlpatterns = [
     path('course', views.course, name='course'),
     path('signup/', accounts_views.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('calendar/', include('cal.urls')),
     path('<int:course_id>/statistic/<int:subject_id>', views.course_statistic, name='course_statistic'),
     path('<int:course_id>/statistic', views.course_statistic, name='course_statistic'),
     path('<int:course_id>/statistic/<int:user_id>/studentStatistic/<int:subject_id>', views.course_student_statistic, name='course_student_statistic'),
@@ -51,7 +53,6 @@ urlpatterns = [
     path('<int:course_id>/forum/<int:topic_id>', views.topic_post, name='topic_post'),
     path('<int:course_id>/forum/<int:topic_id>/post', views.post_topic_post, name='post_topic_post'),
     path('<int:course_id>/forum/<int:topic_id>/editPost/<int:post_id>', views.edit_post_topic_post.as_view(), name='edit_post_topic_post'),
-    path('calendar/', views.CalendarView.as_view(), name='calendar'),
 ]
 
 if settings.DEBUG:

@@ -13,7 +13,6 @@ from .models import Material
 from .models import Discussion
 from .models import ForumTopic
 from .models import ForumTopicPost
-from .models import Event
 
 
 admin.site.register(Institution)
@@ -29,4 +28,3 @@ admin.site.register(Material)
 admin.site.register(Discussion)
 admin.site.register(ForumTopic)
 admin.site.register(ForumTopicPost)
-admin.site.register(Event)

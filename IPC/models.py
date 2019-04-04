@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.urls import reverse
 
 class Institution(models.Model):
     institutionName = models.CharField(max_length=255)
@@ -125,12 +126,3 @@ class ForumTopicPost(models.Model):
 
     def __str__(self):
         return str(self.forumTopicPostPoster)
-
-class Event(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-
-    def __str__(self):
-        return str(self.title)

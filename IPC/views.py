@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, UpdateView
 from django.views.static import serve
 from django.utils.timezone import utc
+import calendar
 
 from datetime import datetime, date, time, timedelta
 from calendar import HTMLCalendar
@@ -18,7 +19,6 @@ from calendar import HTMLCalendar
 from .models import *
 from . import plots
 from .forms import *
-from .utils import Calendar
 
 @login_required
 def course(request):
@@ -425,29 +425,3 @@ class edit_post_topic_post(UpdateView):
         post.forumTopicPostUpdatedTime = datetime.now()
         post.save()
         return redirect('topic_post', course_id=post.forumTopicPostTopic.forumTopicCourse.pk, topic_id=post.forumTopicPostTopic.pk)
-
-
-
-class CalendarView(generic.ListView):
-    model = Event
-    template_name = 'calendar.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # use today's date for the calendar
-        d = get_date(self.request.GET.get('day', None))
-
-        # Instantiate our calendar class with today's year and date
-        cal = Calendar(d.year, d.month)
-
-        # Call the formatmonth method, which returns our calendar as a table
-        html_cal = cal.formatmonth(withyear=True)
-        context['calendar'] = mark_safe(html_cal)
-        return context
-
-def get_date(req_day):
-    if req_day:
-        year, month = (int(x) for x in req_day.split('-'))
-        return date(year, month, day=1)
-    return datetime.today()

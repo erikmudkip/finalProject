@@ -55,8 +55,8 @@ def plotGrade(username, subject_id, course_id):
         xAverage.append(user_result_list.resultName)
         yStudent.append(user_result_list.resultStudentMark)
         yAverage.append(overall_average)
-    traceStudent = go.Scatter(x=xStudent,y=yStudent, name='Student Mark')
-    traceAverage = go.Scatter(x=xAverage,y=yAverage, name='Class Average Mark')
+    traceStudent = go.Bar(x=xStudent,y=yStudent, name='Student Mark')
+    traceAverage = go.Bar(x=xAverage,y=yAverage, name='Class Average Mark')
     data = [traceStudent, traceAverage]
     layout = go.Layout(
         # autosize=False,

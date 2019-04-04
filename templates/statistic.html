@@ -8,14 +8,14 @@
   {{block.super}}
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
-  <li class="breadcrumb-item active">Statistic</li>
+  <li class="breadcrumb-item active">Statistics</li>
 {% endblock %}
 
 {% block content %}
   {% if user_type == "student" %}
     <p class="big">
       <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Graph Choice
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Subjects
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <li><a href="{% url 'course_statistic' course_id=course_id %}">Attendance</a></li>
@@ -43,7 +43,7 @@
           <tr>
             <th>Type</th>
             <th>Subject</th>
-            <th>Value</th>
+            <th>Worth</th>
             <th>Result from</th>
             <th>Mark</th>
             <th>Date posted</th>
