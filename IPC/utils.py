@@ -3,9 +3,10 @@ from calendar import HTMLCalendar
 from .models import *
 
 class Calendar(HTMLCalendar):
-	def __init__(self, year=None, month=None):
+	def __init__(self, year=None, month=None, course_id=None):
 		self.year = year
 		self.month = month
+		self.course_id = course_id
 		super(Calendar, self).__init__()
 
 	# formats a day as a td
@@ -30,7 +31,7 @@ class Calendar(HTMLCalendar):
 	# formats a month as a table
 	# filter events by year and month
 	def formatmonth(self, withyear=True):
-		events = Event.objects.filter(eventDate__year=self.year, eventDate__month=self.month)
+		events = Event.objects.filter(eventDate__year=self.year, eventDate__month=self.month, eventCourse=self.course_id)
 
 		cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
 		cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'

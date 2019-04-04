@@ -25,7 +25,7 @@
               <a class="nav-item nav-link" href="{% url 'course_result' course_id=course_id %}">Results</a>
               <a class="nav-item nav-link" href="{% url 'course_material' course_id=course_id %}">Materials</a>
               <a class="nav-item nav-link" href="{% url 'institute_forum' course_id=course_id %}">Forum</a>
-              <a class="nav-item nav-link" href="{% url 'calendar' %}">Calendar</a>
+              <a class="nav-item nav-link" href="{% url 'calendar' course_id=course_id %}">Calendar</a>
             </div>
           </div>
           <div class="collapse navbar-collapse" id="mainMenu">

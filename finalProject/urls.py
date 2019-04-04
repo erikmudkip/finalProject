@@ -52,9 +52,9 @@ urlpatterns = [
     path('<int:course_id>/forum/<int:topic_id>', views.topic_post, name='topic_post'),
     path('<int:course_id>/forum/<int:topic_id>/post', views.post_topic_post, name='post_topic_post'),
     path('<int:course_id>/forum/<int:topic_id>/editPost/<int:post_id>', views.edit_post_topic_post.as_view(), name='edit_post_topic_post'),
-    path('calendar', views.course_calendar.as_view(), name='calendar'),
-    path('calendar/newEvent', views.course_event, name='course_event_new'),
-    path('calendar/editEvent/<int:event_id>', views.course_event, name='course_event_edit'),
+    path('<int:course_id>/calendar', views.course_calendar.as_view(), name='calendar'),
+    path('<int:course_id>/calendar/newEvent', views.course_event, name='course_event_new'),
+    path('<int:course_id>/calendar/editEvent/<int:event_id>', views.course_event, name='course_event_edit'),
 ]
 
 if settings.DEBUG:

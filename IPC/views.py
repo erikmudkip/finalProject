@@ -433,13 +433,14 @@ class course_calendar(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        course_id = self.kwargs['course_id']
         d = get_date(self.request.GET.get('month', None))
-        cal = Calendar(d.year, d.month)
+        cal = Calendar(d.year, d.month, course_id)
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
-        return context
+        return {'context': context, 'course_id': course_id,}
 
 def get_date(req_month):
     if req_month:
@@ -460,18 +461,19 @@ def next_month(d):
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
 
-def course_event(request, event_id=None):
+def course_event(request, course_id, event_id=None):
     instance = Event()
     if event_id:
-        instance = get_object_or_404(Event, pk=event_id)
+        instance = get_object_or_404(Event, pk=event_id, course_id=course_id)
     else:
         instance = Event()
 
-    course = Course.objects.get(id=1)
+    course = Course.objects.get(id=course_id)
     form = EventForm(request.POST or None, instance=instance)
     if request.POST and form.is_valid():
         event = form.save(commit=False)
         event.eventCourse = course
         event.save()
-        return redirect('calendar')
-    return render(request, 'event.html', {'form': form,})
+        return redirect('calendar', course_id=course_id)
+    return render(request, 'event.html', {'form': form,
+                                          'course_id': course_id,})

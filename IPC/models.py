@@ -136,7 +136,7 @@ class Event(models.Model):
 
     @property
     def get_html_url(self):
-        url = reverse('course_event_edit', args=(self.id,))
+        url = reverse('course_event_edit', args=(self.eventCourse.id, self.id,))
         return f'<a href="{url}"> {self.eventTitle} </a>'
 
     def __str__(self):
