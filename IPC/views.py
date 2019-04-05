@@ -45,6 +45,9 @@ def course_statistic(request, course_id, subject_id = "none"):
     if user_type == "student":
         subjects = list(Subject.objects.filter(subjectCourse=course_id))
         results = list(Result.objects.filter(resultStudentId=request.user, resultReturnedDate=today).order_by('-resultReturnedDate'))
+        events = Event.objects.filter(eventDate__lte=date.today()+timedelta(days=7), eventDate__gt=date.today(), eventCourse=course_id).order_by('eventDate')
+        today = date.today()
+        eventsToday = Event.objects.filter(eventDate=date.today(), eventCourse=course_id).order_by('eventDate')
         announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id).order_by('-announcementDate')
         username = request.user
         if subject_id == "none":
@@ -57,6 +60,9 @@ def course_statistic(request, course_id, subject_id = "none"):
                                                   'announcements': announcements,
                                                   'user_type': user_type,
                                                   'subjects': subjects,
+                                                  'events': events,
+                                                  'today': today,
+                                                  'eventsToday': eventsToday,
                                                   'plot': plot})
     elif user_type == "teacher":
          students = list(User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student'))
@@ -72,6 +78,9 @@ def course_student_statistic(request, course_id, user_id, subject_id = "none"):
     student = User.objects.get(id=user_id)
     results = list(Result.objects.filter(resultStudentId=student.id, resultReturnedDate=today).order_by('-resultReturnedDate'))
     announcements = Announcement.objects.filter(announcementDate__lte=date.today(), announcementDate__gt=date.today()-timedelta(days=7), announcementCourse=course_id).order_by('-announcementDate')
+    events = Event.objects.filter(eventDate__lte=date.today()+timedelta(days=7), eventDate__gt=date.today(), eventCourse=course_id).order_by('eventDate')
+    today = date.today()
+    eventsToday = Event.objects.filter(eventDate=date.today(), eventCourse=course_id).order_by('eventDate')
     username = student
     subjects = list(Subject.objects.filter(subjectCourse=course_id))
     if subject_id == "none":
@@ -83,6 +92,9 @@ def course_student_statistic(request, course_id, user_id, subject_id = "none"):
                                                       'results': results,
                                                       'announcements': announcements,
                                                       'subjects': subjects,
+                                                      'events': events,
+                                                      'today': today,
+                                                      'eventsToday': eventsToday,
                                                       'plot': plot,
                                                       'student': student,})
 
@@ -293,7 +305,7 @@ def post_course_material(request, course_id):
 
 @login_required
 def material_discussion(request, course_id, material_id):
-    material = Course.objects.get(id=material_id)
+    material = Material.objects.get(id=material_id)
     discussions = list(Discussion.objects.filter(discussionMaterial = material_id, discussionCourse = course_id).order_by('-discussionCreatedTime'))
     return render(request, 'discussion.html', {'course_id': course_id,
                                                 'material_id': material_id,
@@ -341,6 +353,7 @@ def create_institute_topic(request, course_id):
             topic.forumTopicPoster = request.user
             topic.forumTopicInstitution = institution
             topic.forumTopicFlag = 0
+            topic.forumTopicCourse = course
             topic.save()
             return redirect('institute_forum', course_id=course_id)
     else:
@@ -434,13 +447,18 @@ class course_calendar(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         course_id = self.kwargs['course_id']
+        user = self.request.user
+        if user.groups.filter(name='Teacher').exists():
+            user_type = "teacher"
+        elif user.groups.filter(name='Student').exists():
+            user_type = "student"
         d = get_date(self.request.GET.get('month', None))
-        cal = Calendar(d.year, d.month, course_id)
+        cal = Calendar(d.year, d.month, course_id, user_type)
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
-        return {'context': context, 'course_id': course_id,}
+        return {'context': context, 'course_id': course_id, 'user_type': user_type}
 
 def get_date(req_month):
     if req_month:
@@ -464,7 +482,7 @@ def next_month(d):
 def course_event(request, course_id, event_id=None):
     instance = Event()
     if event_id:
-        instance = get_object_or_404(Event, pk=event_id, course_id=course_id)
+        instance = get_object_or_404(Event, pk=event_id, eventCourse=course_id)
     else:
         instance = Event()
 
@@ -474,6 +492,12 @@ def course_event(request, course_id, event_id=None):
         event = form.save(commit=False)
         event.eventCourse = course
         event.save()
+        if event_id:
+            announcementMessege = str(instance.eventTitle) + " has been updated in the calendar"
+            announcementPost = Announcement.objects.create(announcementPosterId = request.user, announcementCourse = course, announcementFeed = announcementMessege)
+        else:
+            announcementMessege = "New event has just been added to the calendar"
+            announcementPost = Announcement.objects.create(announcementPosterId = request.user, announcementCourse = course, announcementFeed = announcementMessege)
         return redirect('calendar', course_id=course_id)
     return render(request, 'event.html', {'form': form,
                                           'course_id': course_id,})

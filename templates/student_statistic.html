@@ -8,14 +8,14 @@
   {{block.super}}
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <li class="breadcrumb-item"><a href="{% url 'course' %}">IPC</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'course_statistic' course_id=course_id %}">Statistics</a></li>
-  <li class="breadcrumb-item active">{{ student.username }} Statistic</li>
+  <li class="breadcrumb-item"><a href="{% url 'course_statistic' course_id=course_id %}">Analytics</a></li>
+  <li class="breadcrumb-item active">{{ student.username }} Analytic</li>
 {% endblock %}
 
 {% block content %}
   <p class="big">
     <div class="dropdown">
-      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Subjects
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Chart Menu
       <span class="caret"></span></button>
       <ul class="dropdown-menu">
           <li><a href="{% url 'course_student_statistic' course_id=course_id user_id=student.id %}">Attendance</a></li>
@@ -35,6 +35,21 @@
   </div>
   </p>
 
+  <p class="big">
+  <h5><span class="badge badge-primary">Upcoming Events:</span></h5>
+  {% if events %}
+  <ul>
+    {% for eventsNow in eventsToday %}
+      <li>{{ eventsNow.eventTitle }} is happening today!</li>
+    {% endfor %}
+    {% for event in events %}
+      <li>{{ event.eventTitle }} is in {{ event.eventDate|timeuntil:today }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    no new upcoming event in a week!<br>
+  {% endif %}
+  </p>
   <p class="big">
   <h5><span class="badge badge-primary">Results:</span></h5>
   {% if results %}

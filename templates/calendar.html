@@ -12,7 +12,9 @@ Calendar
 <div class="clearfix">
 	<a class="btn btn-info left" href="{% url 'calendar' course_id=course_id %}?{{ context.prev_month }}"> Previous Month </a>
 	<a class="btn btn-info right" href="{% url 'calendar' course_id=course_id %}?{{ context.next_month }}"> Next Month </a>
-	<a class="btn btn-info right" href="{% url 'course_event_new' course_id=course_id %}"> New Event </a>
+  {% if user_type == "teacher" %}
+    <a class="btn btn-info right" href="{% url 'course_event_new' course_id=course_id %}"> New Event </a>
+  {% endif %}
 </div>
 
 {{ context.calendar }}
