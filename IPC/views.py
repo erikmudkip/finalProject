@@ -212,7 +212,10 @@ def course_result(request, course_id):
     elif user_type == "teacher":
         subject = Subject.objects.get(subjectCourse=course_id, subjectTeacherId=request.user)
         name = Result.objects.filter(resultCourse=course_id).first()
-        results = list(Result.objects.filter(resultStudentId=name.resultStudentId, resultSubject=subject, resultCourse=course_id).order_by('-resultReturnedDate'))
+        if name:
+            results = list(Result.objects.filter(resultStudentId=name.resultStudentId, resultSubject=subject, resultCourse=course_id).order_by('-resultReturnedDate'))
+        else:
+            results = []
         return render(request, 'result.html', {'results': results,
                                                'user_type': user_type,
                                                'course_id': course_id,})
@@ -233,12 +236,10 @@ def post_course_result(request, course_id):
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
     studentNumber = students.count()
     studentMarkFormSet = formset_factory(NewResultMarkForm, extra=studentNumber, max_num=500)
-    print("in1")
     if request.method == 'POST':
         form = NewResultForm(request.POST)
         formset = studentMarkFormSet(request.POST)
         if form.is_valid():
-            print("in2")
             resultTypeInput = form.cleaned_data.get('resultTypeInput')
             resultNameInput = form.cleaned_data.get('resultNameInput')
             if str(form.cleaned_data.get('resultOverallValueInput')) == "None":
@@ -249,13 +250,11 @@ def post_course_result(request, course_id):
             typeOfResult = ResultType.objects.get(id=resultTypeInput)
             for student, formse in studentFormDatas:
                 if formset.is_valid():
-                    print("in3")
                     if str(formse.cleaned_data.get('resultStudentMarkInput')) == "None":
                         resultStudentMarkInput = 0
                     else:
                         resultStudentMarkInput = formse.cleaned_data.get('resultStudentMarkInput')
                     resultFeedbackInput = formse.cleaned_data.get('resultFeedbackInput')
-                    print("input"+str(resultFeedbackInput))
                     courseResult = Result.objects.create(resultOverallValue=resultOverallValueInput, resultSubject = currentSubject, resultType = typeOfResult, resultStudentId = student, resultStudentMark = resultStudentMarkInput, resultFeedback = resultFeedbackInput, resultCourse = course, resultName = resultNameInput)
             announcementMessege = "The " + str(typeOfResult) + " result of " + str(resultNameInput) + " is now available!"
             announcementPost = Announcement.objects.create(announcementPosterId = request.user, announcementCourse = course, announcementFeed = announcementMessege)
@@ -480,6 +479,11 @@ def next_month(d):
     return month
 
 def course_event(request, course_id, event_id=None):
+    user = request.user
+    if user.groups.filter(name='Teacher').exists():
+        user_type = "teacher"
+    elif user.groups.filter(name='Student').exists():
+        user_type = "student"
     instance = Event()
     if event_id:
         instance = get_object_or_404(Event, pk=event_id, eventCourse=course_id)
@@ -500,4 +504,5 @@ def course_event(request, course_id, event_id=None):
             announcementPost = Announcement.objects.create(announcementPosterId = request.user, announcementCourse = course, announcementFeed = announcementMessege)
         return redirect('calendar', course_id=course_id)
     return render(request, 'event.html', {'form': form,
+                                            'user_type': user_type,
                                           'course_id': course_id,})

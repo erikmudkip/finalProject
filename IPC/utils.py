@@ -15,12 +15,8 @@ class Calendar(HTMLCalendar):
 	def formatday(self, day, events):
 		events_per_day = events.filter(eventDate__day=day)
 		d = ''
-		if self.user_type == "teacher":
-			for event in events_per_day:
-				d += f'<li> {event.get_html_url} </li>'
-		elif self.user_type == "student":
-			for event in events_per_day:
-				d += f'<li> {event.eventTitle} </li>'
+		for event in events_per_day:
+			d += f'<li> {event.get_html_url} </li>'
 
 		if day != 0:
 			return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
