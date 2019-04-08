@@ -1,0 +1,988 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>IPC.migrations package &#8212; IPC 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="accounts package" href="accounts.html" />
+    <link rel="prev" title="IPC package" href="IPC.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="ipc-migrations-package">
+<h1>IPC.migrations package<a class="headerlink" href="#ipc-migrations-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-IPC.migrations.0001_initial">
+<span id="ipc-migrations-0001-initial-module"></span><h2>IPC.migrations.0001_initial module<a class="headerlink" href="#module-IPC.migrations.0001_initial" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0001_initial.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0001_initial.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0001_initial.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0001_initial.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = []</em><a class="headerlink" href="#IPC.migrations.0001_initial.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0001_initial.Migration.initial">
+<code class="descname">initial</code><em class="property"> = True</em><a class="headerlink" href="#IPC.migrations.0001_initial.Migration.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0001_initial.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Attendance', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('attendanceDate', &lt;django.db.models.fields.DateTimeField&gt;)]&gt;, &lt;CreateModel  name='AttendanceStatus', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('AttendanceStatusName', &lt;django.db.models.fields.CharField&gt;), ('AttendanceStatusDesc', &lt;django.db.models.fields.TextField&gt;)]&gt;, &lt;CreateModel  name='Course', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('courseName', &lt;django.db.models.fields.CharField&gt;), ('courseCode', &lt;django.db.models.fields.CharField&gt;), ('courseStudentKey', &lt;django.db.models.fields.CharField&gt;), ('courseTeacherKey', &lt;django.db.models.fields.CharField&gt;)]&gt;, &lt;CreateModel  name='DailyAttendance', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('dailyAttendanceAttendanceId', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='Institution', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('institutionName', &lt;django.db.models.fields.CharField&gt;), ('institutionCode', &lt;django.db.models.fields.CharField&gt;)]&gt;, &lt;CreateModel  name='Student', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('studentName', &lt;django.db.models.fields.CharField&gt;), ('studentCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('studentInstitution', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='Teacher', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('teacherName', &lt;django.db.models.fields.CharField&gt;), ('teacherCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('teacherInstitution', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;AddField  model_name='dailyattendance', name='dailyAttendanceStudentId', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='dailyattendance', name='dailyAttendanceStudentStatus', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='course', name='courseInstitution', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='attendance', name='attendanceCourseId', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AddField  model_name='attendance', name='attendanceTeacherId', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0001_initial.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0002_auto_20190122_1332">
+<span id="ipc-migrations-0002-auto-20190122-1332-module"></span><h2>IPC.migrations.0002_auto_20190122_1332 module<a class="headerlink" href="#module-IPC.migrations.0002_auto_20190122_1332" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0002_auto_20190122_1332.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0002_auto_20190122_1332.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0002_auto_20190122_1332.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0002_auto_20190122_1332.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0001_initial')]</em><a class="headerlink" href="#IPC.migrations.0002_auto_20190122_1332.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0002_auto_20190122_1332.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RenameField  model_name='attendancestatus', old_name='AttendanceStatusDesc', new_name='attendanceStatusDesc'&gt;, &lt;RenameField  model_name='attendancestatus', old_name='AttendanceStatusName', new_name='attendanceStatusName'&gt;]</em><a class="headerlink" href="#IPC.migrations.0002_auto_20190122_1332.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0003_announcement">
+<span id="ipc-migrations-0003-announcement-module"></span><h2>IPC.migrations.0003_announcement module<a class="headerlink" href="#module-IPC.migrations.0003_announcement" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0003_announcement.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0003_announcement.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0003_announcement.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0003_announcement.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0002_auto_20190122_1332')]</em><a class="headerlink" href="#IPC.migrations.0003_announcement.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0003_announcement.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Announcement', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('announcementDate', &lt;django.db.models.fields.DateTimeField&gt;), ('announcementFeed', &lt;django.db.models.fields.TextField&gt;), ('announcementCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('announcementPosterId', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</em><a class="headerlink" href="#IPC.migrations.0003_announcement.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0004_auto_20190209_1151">
+<span id="ipc-migrations-0004-auto-20190209-1151-module"></span><h2>IPC.migrations.0004_auto_20190209_1151 module<a class="headerlink" href="#module-IPC.migrations.0004_auto_20190209_1151" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0004_auto_20190209_1151.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0004_auto_20190209_1151.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0004_auto_20190209_1151.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0004_auto_20190209_1151.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0003_announcement')]</em><a class="headerlink" href="#IPC.migrations.0004_auto_20190209_1151.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0004_auto_20190209_1151.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RemoveField  model_name='course', name='courseStudentKey'&gt;, &lt;RemoveField  model_name='course', name='courseTeacherKey'&gt;]</em><a class="headerlink" href="#IPC.migrations.0004_auto_20190209_1151.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0005_auto_20190210_1152">
+<span id="ipc-migrations-0005-auto-20190210-1152-module"></span><h2>IPC.migrations.0005_auto_20190210_1152 module<a class="headerlink" href="#module-IPC.migrations.0005_auto_20190210_1152" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0005_auto_20190210_1152.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0005_auto_20190210_1152.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0005_auto_20190210_1152.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0005_auto_20190210_1152.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0004_auto_20190209_1151')]</em><a class="headerlink" href="#IPC.migrations.0005_auto_20190210_1152.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0005_auto_20190210_1152.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RemoveField  model_name='student', name='studentCourse'&gt;, &lt;RemoveField  model_name='student', name='studentInstitution'&gt;, &lt;RemoveField  model_name='teacher', name='teacherCourse'&gt;, &lt;RemoveField  model_name='teacher', name='teacherInstitution'&gt;, &lt;AlterField  model_name='announcement', name='announcementPosterId', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AlterField  model_name='attendance', name='attendanceTeacherId', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;AlterField  model_name='dailyattendance', name='dailyAttendanceStudentId', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;, &lt;DeleteModel  name='Student'&gt;, &lt;DeleteModel  name='Teacher'&gt;]</em><a class="headerlink" href="#IPC.migrations.0005_auto_20190210_1152.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0006_auto_20190210_1212">
+<span id="ipc-migrations-0006-auto-20190210-1212-module"></span><h2>IPC.migrations.0006_auto_20190210_1212 module<a class="headerlink" href="#module-IPC.migrations.0006_auto_20190210_1212" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0006_auto_20190210_1212.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0006_auto_20190210_1212.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0006_auto_20190210_1212.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0006_auto_20190210_1212.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0005_auto_20190210_1152')]</em><a class="headerlink" href="#IPC.migrations.0006_auto_20190210_1212.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0006_auto_20190210_1212.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='attendancestatus', name='attendanceStatusName', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0006_auto_20190210_1212.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0007_auto_20190210_1216">
+<span id="ipc-migrations-0007-auto-20190210-1216-module"></span><h2>IPC.migrations.0007_auto_20190210_1216 module<a class="headerlink" href="#module-IPC.migrations.0007_auto_20190210_1216" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0007_auto_20190210_1216.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0007_auto_20190210_1216.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0007_auto_20190210_1216.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0007_auto_20190210_1216.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0006_auto_20190210_1212')]</em><a class="headerlink" href="#IPC.migrations.0007_auto_20190210_1216.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0007_auto_20190210_1216.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='attendancestatus', name='attendanceStatusName', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0007_auto_20190210_1216.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0008_auto_20190218_1051">
+<span id="ipc-migrations-0008-auto-20190218-1051-module"></span><h2>IPC.migrations.0008_auto_20190218_1051 module<a class="headerlink" href="#module-IPC.migrations.0008_auto_20190218_1051" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0008_auto_20190218_1051.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0008_auto_20190218_1051.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0008_auto_20190218_1051.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0008_auto_20190218_1051.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0007_auto_20190210_1216')]</em><a class="headerlink" href="#IPC.migrations.0008_auto_20190218_1051.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0008_auto_20190218_1051.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='dailyattendance', name='dailyAttendanceStudentStatus', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0008_auto_20190218_1051.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0009_auto_20190218_1131">
+<span id="ipc-migrations-0009-auto-20190218-1131-module"></span><h2>IPC.migrations.0009_auto_20190218_1131 module<a class="headerlink" href="#module-IPC.migrations.0009_auto_20190218_1131" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0009_auto_20190218_1131.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0009_auto_20190218_1131.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0009_auto_20190218_1131.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0009_auto_20190218_1131.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0008_auto_20190218_1051')]</em><a class="headerlink" href="#IPC.migrations.0009_auto_20190218_1131.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0009_auto_20190218_1131.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='dailyattendance', name='dailyAttendanceStudentStatus', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0009_auto_20190218_1131.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0010_auto_20190219_1329">
+<span id="ipc-migrations-0010-auto-20190219-1329-module"></span><h2>IPC.migrations.0010_auto_20190219_1329 module<a class="headerlink" href="#module-IPC.migrations.0010_auto_20190219_1329" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0010_auto_20190219_1329.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0010_auto_20190219_1329.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0010_auto_20190219_1329.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0010_auto_20190219_1329.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('auth', '__first__'), ('IPC', '0009_auto_20190218_1131')]</em><a class="headerlink" href="#IPC.migrations.0010_auto_20190219_1329.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0010_auto_20190219_1329.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Result', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('resultStudentMark', &lt;django.db.models.fields.IntegerField&gt;), ('resultFeedback', &lt;django.db.models.fields.TextField&gt;), ('resultReturnedDate', &lt;django.db.models.fields.DateTimeField&gt;), ('resultName', &lt;django.db.models.fields.CharField&gt;), ('resultCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('resultStudentId', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='ResultType', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('ResultTypeName', &lt;django.db.models.fields.CharField&gt;), ('ResultTypeDesc', &lt;django.db.models.fields.TextField&gt;)]&gt;, &lt;AddField  model_name='result', name='resultType', field=&lt;django.db.models.fields.related.ForeignKey&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0010_auto_20190219_1329.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0011_auto_20190220_1126">
+<span id="ipc-migrations-0011-auto-20190220-1126-module"></span><h2>IPC.migrations.0011_auto_20190220_1126 module<a class="headerlink" href="#module-IPC.migrations.0011_auto_20190220_1126" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0011_auto_20190220_1126.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0011_auto_20190220_1126.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0011_auto_20190220_1126.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0011_auto_20190220_1126.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0010_auto_20190219_1329')]</em><a class="headerlink" href="#IPC.migrations.0011_auto_20190220_1126.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0011_auto_20190220_1126.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='result', name='resultFeedback', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0011_auto_20190220_1126.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0012_auto_20190220_1215">
+<span id="ipc-migrations-0012-auto-20190220-1215-module"></span><h2>IPC.migrations.0012_auto_20190220_1215 module<a class="headerlink" href="#module-IPC.migrations.0012_auto_20190220_1215" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0012_auto_20190220_1215.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0012_auto_20190220_1215.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0012_auto_20190220_1215.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0012_auto_20190220_1215.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0011_auto_20190220_1126')]</em><a class="headerlink" href="#IPC.migrations.0012_auto_20190220_1215.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0012_auto_20190220_1215.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='result', name='resultFeedback', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0012_auto_20190220_1215.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0013_calendar">
+<span id="ipc-migrations-0013-calendar-module"></span><h2>IPC.migrations.0013_calendar module<a class="headerlink" href="#module-IPC.migrations.0013_calendar" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0013_calendar.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0013_calendar.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0013_calendar.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0013_calendar.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('auth', '__first__'), ('IPC', '0012_auto_20190220_1215')]</em><a class="headerlink" href="#IPC.migrations.0013_calendar.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0013_calendar.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Calendar', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('calendarDate', &lt;django.db.models.fields.DateTimeField&gt;), ('calendarFeed', &lt;django.db.models.fields.TextField&gt;), ('calendarHeading', &lt;django.db.models.fields.CharField&gt;), ('calendarCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('calendarPosterId', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</em><a class="headerlink" href="#IPC.migrations.0013_calendar.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0014_calendar_calendarduedate">
+<span id="ipc-migrations-0014-calendar-calendarduedate-module"></span><h2>IPC.migrations.0014_calendar_calendarduedate module<a class="headerlink" href="#module-IPC.migrations.0014_calendar_calendarduedate" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0014_calendar_calendarduedate.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0014_calendar_calendarduedate.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0014_calendar_calendarduedate.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0014_calendar_calendarduedate.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0013_calendar')]</em><a class="headerlink" href="#IPC.migrations.0014_calendar_calendarduedate.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0014_calendar_calendarduedate.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='calendar', name='calendarDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0014_calendar_calendarduedate.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0015_auto_20190227_1539">
+<span id="ipc-migrations-0015-auto-20190227-1539-module"></span><h2>IPC.migrations.0015_auto_20190227_1539 module<a class="headerlink" href="#module-IPC.migrations.0015_auto_20190227_1539" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0015_auto_20190227_1539.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0015_auto_20190227_1539.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0015_auto_20190227_1539.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0015_auto_20190227_1539.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('auth', '__first__'), ('IPC', '0014_calendar_calendarduedate')]</em><a class="headerlink" href="#IPC.migrations.0015_auto_20190227_1539.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0015_auto_20190227_1539.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='AssigntmentDeadline', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('assigntmentDeadlineDatePosted', &lt;django.db.models.fields.DateTimeField&gt;), ('assigntmentDeadlineMemo', &lt;django.db.models.fields.TextField&gt;), ('assigntmentDeadlineTitle', &lt;django.db.models.fields.CharField&gt;), ('assigntmentDeadlineDueDate', &lt;django.db.models.fields.DateTimeField&gt;), ('assigntmentDeadlineCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('assigntmentDeadlinePosterId', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='ExamDate', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('examDateDatePosted', &lt;django.db.models.fields.DateTimeField&gt;), ('examDateMemo', &lt;django.db.models.fields.TextField&gt;), ('examDateTitle', &lt;django.db.models.fields.CharField&gt;), ('examDateDate', &lt;django.db.models.fields.DateTimeField&gt;), ('examDateCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('examDatePosterId', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='Subject', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('subjectName', &lt;django.db.models.fields.CharField&gt;), ('subjectCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('subjectTeacherId', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;RemoveField  model_name='calendar', name='calendarCourse'&gt;, &lt;RemoveField  model_name='calendar', name='calendarPosterId'&gt;, &lt;DeleteModel  name='Calendar'&gt;]</em><a class="headerlink" href="#IPC.migrations.0015_auto_20190227_1539.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0016_auto_20190227_1543">
+<span id="ipc-migrations-0016-auto-20190227-1543-module"></span><h2>IPC.migrations.0016_auto_20190227_1543 module<a class="headerlink" href="#module-IPC.migrations.0016_auto_20190227_1543" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0016_auto_20190227_1543.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0016_auto_20190227_1543.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0016_auto_20190227_1543.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0016_auto_20190227_1543.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0015_auto_20190227_1539')]</em><a class="headerlink" href="#IPC.migrations.0016_auto_20190227_1543.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0016_auto_20190227_1543.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0016_auto_20190227_1543.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0017_auto_20190227_1546">
+<span id="ipc-migrations-0017-auto-20190227-1546-module"></span><h2>IPC.migrations.0017_auto_20190227_1546 module<a class="headerlink" href="#module-IPC.migrations.0017_auto_20190227_1546" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0017_auto_20190227_1546.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0017_auto_20190227_1546.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0017_auto_20190227_1546.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0017_auto_20190227_1546.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0016_auto_20190227_1543')]</em><a class="headerlink" href="#IPC.migrations.0017_auto_20190227_1546.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0017_auto_20190227_1546.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='attendance', name='attendanceSubject', field=&lt;django.db.models.fields.related.ForeignKey&gt;, preserve_default=False&gt;, &lt;AddField  model_name='result', name='resultSubject', field=&lt;django.db.models.fields.related.ForeignKey&gt;, preserve_default=False&gt;, &lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0017_auto_20190227_1546.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0018_auto_20190227_1622">
+<span id="ipc-migrations-0018-auto-20190227-1622-module"></span><h2>IPC.migrations.0018_auto_20190227_1622 module<a class="headerlink" href="#module-IPC.migrations.0018_auto_20190227_1622" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0018_auto_20190227_1622.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0018_auto_20190227_1622.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0018_auto_20190227_1622.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0018_auto_20190227_1622.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0017_auto_20190227_1546')]</em><a class="headerlink" href="#IPC.migrations.0018_auto_20190227_1622.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0018_auto_20190227_1622.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultFeedback', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0018_auto_20190227_1622.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0019_auto_20190227_1630">
+<span id="ipc-migrations-0019-auto-20190227-1630-module"></span><h2>IPC.migrations.0019_auto_20190227_1630 module<a class="headerlink" href="#module-IPC.migrations.0019_auto_20190227_1630" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0019_auto_20190227_1630.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0019_auto_20190227_1630.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0019_auto_20190227_1630.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0019_auto_20190227_1630.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0018_auto_20190227_1622')]</em><a class="headerlink" href="#IPC.migrations.0019_auto_20190227_1630.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0019_auto_20190227_1630.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultFeedback', field=&lt;django.db.models.fields.CharField&gt;&gt;, &lt;AlterField  model_name='result', name='resultStudentMark', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0019_auto_20190227_1630.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0020_auto_20190227_1630">
+<span id="ipc-migrations-0020-auto-20190227-1630-module"></span><h2>IPC.migrations.0020_auto_20190227_1630 module<a class="headerlink" href="#module-IPC.migrations.0020_auto_20190227_1630" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0020_auto_20190227_1630.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0020_auto_20190227_1630.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0020_auto_20190227_1630.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0020_auto_20190227_1630.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0019_auto_20190227_1630')]</em><a class="headerlink" href="#IPC.migrations.0020_auto_20190227_1630.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0020_auto_20190227_1630.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultFeedback', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0020_auto_20190227_1630.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0021_auto_20190227_1632">
+<span id="ipc-migrations-0021-auto-20190227-1632-module"></span><h2>IPC.migrations.0021_auto_20190227_1632 module<a class="headerlink" href="#module-IPC.migrations.0021_auto_20190227_1632" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0021_auto_20190227_1632.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0021_auto_20190227_1632.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0021_auto_20190227_1632.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0021_auto_20190227_1632.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0020_auto_20190227_1630')]</em><a class="headerlink" href="#IPC.migrations.0021_auto_20190227_1632.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0021_auto_20190227_1632.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultStudentMark', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0021_auto_20190227_1632.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0022_auto_20190227_1633">
+<span id="ipc-migrations-0022-auto-20190227-1633-module"></span><h2>IPC.migrations.0022_auto_20190227_1633 module<a class="headerlink" href="#module-IPC.migrations.0022_auto_20190227_1633" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0022_auto_20190227_1633.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0022_auto_20190227_1633.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0022_auto_20190227_1633.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0022_auto_20190227_1633.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0021_auto_20190227_1632')]</em><a class="headerlink" href="#IPC.migrations.0022_auto_20190227_1633.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0022_auto_20190227_1633.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultStudentMark', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0022_auto_20190227_1633.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0023_auto_20190227_2028">
+<span id="ipc-migrations-0023-auto-20190227-2028-module"></span><h2>IPC.migrations.0023_auto_20190227_2028 module<a class="headerlink" href="#module-IPC.migrations.0023_auto_20190227_2028" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0023_auto_20190227_2028.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0023_auto_20190227_2028.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0023_auto_20190227_2028.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0023_auto_20190227_2028.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0022_auto_20190227_1633')]</em><a class="headerlink" href="#IPC.migrations.0023_auto_20190227_2028.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0023_auto_20190227_2028.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='announcement', name='announcementDate', field=&lt;django.db.models.fields.DateField&gt;&gt;, &lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='attendance', name='attendanceDate', field=&lt;django.db.models.fields.DateField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultReturnedDate', field=&lt;django.db.models.fields.DateField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0023_auto_20190227_2028.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0024_auto_20190227_2029">
+<span id="ipc-migrations-0024-auto-20190227-2029-module"></span><h2>IPC.migrations.0024_auto_20190227_2029 module<a class="headerlink" href="#module-IPC.migrations.0024_auto_20190227_2029" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0024_auto_20190227_2029.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0024_auto_20190227_2029.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0024_auto_20190227_2029.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0024_auto_20190227_2029.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0023_auto_20190227_2028')]</em><a class="headerlink" href="#IPC.migrations.0024_auto_20190227_2029.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0024_auto_20190227_2029.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='announcement', name='announcementDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='attendance', name='attendanceDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultReturnedDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0024_auto_20190227_2029.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0025_auto_20190227_2031">
+<span id="ipc-migrations-0025-auto-20190227-2031-module"></span><h2>IPC.migrations.0025_auto_20190227_2031 module<a class="headerlink" href="#module-IPC.migrations.0025_auto_20190227_2031" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0025_auto_20190227_2031.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0025_auto_20190227_2031.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0025_auto_20190227_2031.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0025_auto_20190227_2031.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0024_auto_20190227_2029')]</em><a class="headerlink" href="#IPC.migrations.0025_auto_20190227_2031.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0025_auto_20190227_2031.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='announcement', name='announcementDate', field=&lt;django.db.models.fields.DateField&gt;&gt;, &lt;AlterField  model_name='assigntmentdeadline', name='assigntmentDeadlineDueDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='attendance', name='attendanceDate', field=&lt;django.db.models.fields.DateField&gt;&gt;, &lt;AlterField  model_name='examdate', name='examDateDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;, &lt;AlterField  model_name='result', name='resultReturnedDate', field=&lt;django.db.models.fields.DateField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0025_auto_20190227_2031.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0026_auto_20190306_1316">
+<span id="ipc-migrations-0026-auto-20190306-1316-module"></span><h2>IPC.migrations.0026_auto_20190306_1316 module<a class="headerlink" href="#module-IPC.migrations.0026_auto_20190306_1316" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0026_auto_20190306_1316.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0026_auto_20190306_1316.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0026_auto_20190306_1316.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0026_auto_20190306_1316.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0025_auto_20190227_2031')]</em><a class="headerlink" href="#IPC.migrations.0026_auto_20190306_1316.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0026_auto_20190306_1316.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Event', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('title', &lt;django.db.models.fields.CharField&gt;), ('description', &lt;django.db.models.fields.TextField&gt;), ('start_time', &lt;django.db.models.fields.DateTimeField&gt;), ('end_time', &lt;django.db.models.fields.DateTimeField&gt;)]&gt;, &lt;RemoveField  model_name='assigntmentdeadline', name='assigntmentDeadlineCourse'&gt;, &lt;RemoveField  model_name='assigntmentdeadline', name='assigntmentDeadlinePosterId'&gt;, &lt;RemoveField  model_name='examdate', name='examDateCourse'&gt;, &lt;RemoveField  model_name='examdate', name='examDatePosterId'&gt;, &lt;DeleteModel  name='AssigntmentDeadline'&gt;, &lt;DeleteModel  name='ExamDate'&gt;]</em><a class="headerlink" href="#IPC.migrations.0026_auto_20190306_1316.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0027_auto_20190311_0951">
+<span id="ipc-migrations-0027-auto-20190311-0951-module"></span><h2>IPC.migrations.0027_auto_20190311_0951 module<a class="headerlink" href="#module-IPC.migrations.0027_auto_20190311_0951" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0027_auto_20190311_0951.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0027_auto_20190311_0951.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0027_auto_20190311_0951.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0027_auto_20190311_0951.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0026_auto_20190306_1316')]</em><a class="headerlink" href="#IPC.migrations.0027_auto_20190311_0951.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0027_auto_20190311_0951.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Material', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('materialTitle', &lt;django.db.models.fields.CharField&gt;), ('materialDescription', &lt;django.db.models.fields.TextField&gt;), ('materialDocument', &lt;django.db.models.fields.files.FileField&gt;), ('materialUploadTime', &lt;django.db.models.fields.DateTimeField&gt;)]&gt;, &lt;DeleteModel  name='Event'&gt;]</em><a class="headerlink" href="#IPC.migrations.0027_auto_20190311_0951.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0028_auto_20190311_1045">
+<span id="ipc-migrations-0028-auto-20190311-1045-module"></span><h2>IPC.migrations.0028_auto_20190311_1045 module<a class="headerlink" href="#module-IPC.migrations.0028_auto_20190311_1045" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0028_auto_20190311_1045.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0028_auto_20190311_1045.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0028_auto_20190311_1045.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0028_auto_20190311_1045.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('auth', '__first__'), ('IPC', '0027_auto_20190311_0951')]</em><a class="headerlink" href="#IPC.migrations.0028_auto_20190311_1045.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0028_auto_20190311_1045.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='material', name='materialCourse', field=&lt;django.db.models.fields.related.ForeignKey&gt;, preserve_default=False&gt;, &lt;AddField  model_name='material', name='materialPosterId', field=&lt;django.db.models.fields.related.ForeignKey&gt;, preserve_default=False&gt;, &lt;AddField  model_name='material', name='materialSubject', field=&lt;django.db.models.fields.related.ForeignKey&gt;, preserve_default=False&gt;, &lt;AlterField  model_name='material', name='materialTitle', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0028_auto_20190311_1045.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0029_discussion">
+<span id="ipc-migrations-0029-discussion-module"></span><h2>IPC.migrations.0029_discussion module<a class="headerlink" href="#module-IPC.migrations.0029_discussion" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0029_discussion.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0029_discussion.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0029_discussion.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0029_discussion.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('auth', '__first__'), ('IPC', '0028_auto_20190311_1045')]</em><a class="headerlink" href="#IPC.migrations.0029_discussion.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0029_discussion.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Discussion', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('discussionPost', &lt;django.db.models.fields.TextField&gt;), ('discussionCreatedTime', &lt;django.db.models.fields.DateTimeField&gt;), ('discussionUpdatedTime', &lt;django.db.models.fields.DateTimeField&gt;), ('discussionCourse', &lt;django.db.models.fields.related.ForeignKey&gt;), ('discussionMaterial', &lt;django.db.models.fields.related.ForeignKey&gt;), ('discussionPostUpdatere', &lt;django.db.models.fields.related.ForeignKey&gt;), ('discussionPoster', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</em><a class="headerlink" href="#IPC.migrations.0029_discussion.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0030_remove_discussion_discussionpostupdatere">
+<span id="ipc-migrations-0030-remove-discussion-discussionpostupdatere-module"></span><h2>IPC.migrations.0030_remove_discussion_discussionpostupdatere module<a class="headerlink" href="#module-IPC.migrations.0030_remove_discussion_discussionpostupdatere" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0030_remove_discussion_discussionpostupdatere.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0030_remove_discussion_discussionpostupdatere.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0030_remove_discussion_discussionpostupdatere.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0030_remove_discussion_discussionpostupdatere.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0029_discussion')]</em><a class="headerlink" href="#IPC.migrations.0030_remove_discussion_discussionpostupdatere.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0030_remove_discussion_discussionpostupdatere.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RemoveField  model_name='discussion', name='discussionPostUpdatere'&gt;]</em><a class="headerlink" href="#IPC.migrations.0030_remove_discussion_discussionpostupdatere.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0031_auto_20190323_2242">
+<span id="ipc-migrations-0031-auto-20190323-2242-module"></span><h2>IPC.migrations.0031_auto_20190323_2242 module<a class="headerlink" href="#module-IPC.migrations.0031_auto_20190323_2242" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0031_auto_20190323_2242.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0031_auto_20190323_2242.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0031_auto_20190323_2242.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0031_auto_20190323_2242.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0030_remove_discussion_discussionpostupdatere')]</em><a class="headerlink" href="#IPC.migrations.0031_auto_20190323_2242.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0031_auto_20190323_2242.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='result', name='resultStudentMark', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0031_auto_20190323_2242.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0032_auto_20190323_2246">
+<span id="ipc-migrations-0032-auto-20190323-2246-module"></span><h2>IPC.migrations.0032_auto_20190323_2246 module<a class="headerlink" href="#module-IPC.migrations.0032_auto_20190323_2246" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0032_auto_20190323_2246.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0032_auto_20190323_2246.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0032_auto_20190323_2246.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0032_auto_20190323_2246.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0031_auto_20190323_2242')]</em><a class="headerlink" href="#IPC.migrations.0032_auto_20190323_2246.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0032_auto_20190323_2246.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='result', name='resultStudentMark', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0032_auto_20190323_2246.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0033_auto_20190324_2042">
+<span id="ipc-migrations-0033-auto-20190324-2042-module"></span><h2>IPC.migrations.0033_auto_20190324_2042 module<a class="headerlink" href="#module-IPC.migrations.0033_auto_20190324_2042" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0033_auto_20190324_2042.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0033_auto_20190324_2042.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0033_auto_20190324_2042.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0033_auto_20190324_2042.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0032_auto_20190323_2246')]</em><a class="headerlink" href="#IPC.migrations.0033_auto_20190324_2042.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0033_auto_20190324_2042.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='attendance', name='attendanceDate', field=&lt;django.db.models.fields.DateTimeField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0033_auto_20190324_2042.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0034_result_resultoverallvalue">
+<span id="ipc-migrations-0034-result-resultoverallvalue-module"></span><h2>IPC.migrations.0034_result_resultoverallvalue module<a class="headerlink" href="#module-IPC.migrations.0034_result_resultoverallvalue" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0034_result_resultoverallvalue.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0034_result_resultoverallvalue.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0034_result_resultoverallvalue.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0034_result_resultoverallvalue.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0033_auto_20190324_2042')]</em><a class="headerlink" href="#IPC.migrations.0034_result_resultoverallvalue.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0034_result_resultoverallvalue.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='result', name='resultOverallValue', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0034_result_resultoverallvalue.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0035_forumtopic_forumtopicpost">
+<span id="ipc-migrations-0035-forumtopic-forumtopicpost-module"></span><h2>IPC.migrations.0035_forumtopic_forumtopicpost module<a class="headerlink" href="#module-IPC.migrations.0035_forumtopic_forumtopicpost" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0035_forumtopic_forumtopicpost.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0035_forumtopic_forumtopicpost.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0035_forumtopic_forumtopicpost.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0035_forumtopic_forumtopicpost.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('auth', '__first__'), ('IPC', '0034_result_resultoverallvalue')]</em><a class="headerlink" href="#IPC.migrations.0035_forumtopic_forumtopicpost.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0035_forumtopic_forumtopicpost.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='ForumTopic', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('forumTopicName', &lt;django.db.models.fields.CharField&gt;), ('forumTopicPostedDate', &lt;django.db.models.fields.DateTimeField&gt;), ('forumTopicInstitution', &lt;django.db.models.fields.related.ForeignKey&gt;), ('forumTopicPoster', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;, &lt;CreateModel  name='ForumTopicPost', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('forumTopicPostPost', &lt;django.db.models.fields.TextField&gt;), ('forumTopicPostCreatedTime', &lt;django.db.models.fields.DateTimeField&gt;), ('forumTopicPostUpdatedTime', &lt;django.db.models.fields.DateTimeField&gt;), ('forumTopicPostPoster', &lt;django.db.models.fields.related.ForeignKey&gt;), ('forumTopicPostTopic', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</em><a class="headerlink" href="#IPC.migrations.0035_forumtopic_forumtopicpost.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0036_forumtopic_forumtopicdesc">
+<span id="ipc-migrations-0036-forumtopic-forumtopicdesc-module"></span><h2>IPC.migrations.0036_forumtopic_forumtopicdesc module<a class="headerlink" href="#module-IPC.migrations.0036_forumtopic_forumtopicdesc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0036_forumtopic_forumtopicdesc.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0036_forumtopic_forumtopicdesc.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0036_forumtopic_forumtopicdesc.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0036_forumtopic_forumtopicdesc.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0035_forumtopic_forumtopicpost')]</em><a class="headerlink" href="#IPC.migrations.0036_forumtopic_forumtopicdesc.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0036_forumtopic_forumtopicdesc.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='forumtopic', name='forumTopicDesc', field=&lt;django.db.models.fields.TextField&gt;, preserve_default=False&gt;]</em><a class="headerlink" href="#IPC.migrations.0036_forumtopic_forumtopicdesc.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0037_forumtopic_forumtopicflag">
+<span id="ipc-migrations-0037-forumtopic-forumtopicflag-module"></span><h2>IPC.migrations.0037_forumtopic_forumtopicflag module<a class="headerlink" href="#module-IPC.migrations.0037_forumtopic_forumtopicflag" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0037_forumtopic_forumtopicflag.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0037_forumtopic_forumtopicflag.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0037_forumtopic_forumtopicflag.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0037_forumtopic_forumtopicflag.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0036_forumtopic_forumtopicdesc')]</em><a class="headerlink" href="#IPC.migrations.0037_forumtopic_forumtopicflag.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0037_forumtopic_forumtopicflag.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='forumtopic', name='forumTopicFlag', field=&lt;django.db.models.fields.IntegerField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0037_forumtopic_forumtopicflag.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0038_forumtopic_forumtopiccourse">
+<span id="ipc-migrations-0038-forumtopic-forumtopiccourse-module"></span><h2>IPC.migrations.0038_forumtopic_forumtopiccourse module<a class="headerlink" href="#module-IPC.migrations.0038_forumtopic_forumtopiccourse" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0038_forumtopic_forumtopiccourse.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0038_forumtopic_forumtopiccourse.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0038_forumtopic_forumtopiccourse.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0038_forumtopic_forumtopiccourse.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0037_forumtopic_forumtopicflag')]</em><a class="headerlink" href="#IPC.migrations.0038_forumtopic_forumtopiccourse.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0038_forumtopic_forumtopiccourse.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='forumtopic', name='forumTopicCourse', field=&lt;django.db.models.fields.related.ForeignKey&gt;, preserve_default=False&gt;]</em><a class="headerlink" href="#IPC.migrations.0038_forumtopic_forumtopiccourse.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0039_remove_forumtopic_forumtopiccourse">
+<span id="ipc-migrations-0039-remove-forumtopic-forumtopiccourse-module"></span><h2>IPC.migrations.0039_remove_forumtopic_forumtopiccourse module<a class="headerlink" href="#module-IPC.migrations.0039_remove_forumtopic_forumtopiccourse" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0039_remove_forumtopic_forumtopiccourse.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0039_remove_forumtopic_forumtopiccourse.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0039_remove_forumtopic_forumtopiccourse.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0039_remove_forumtopic_forumtopiccourse.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0038_forumtopic_forumtopiccourse')]</em><a class="headerlink" href="#IPC.migrations.0039_remove_forumtopic_forumtopiccourse.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0039_remove_forumtopic_forumtopiccourse.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RemoveField  model_name='forumtopic', name='forumTopicCourse'&gt;]</em><a class="headerlink" href="#IPC.migrations.0039_remove_forumtopic_forumtopiccourse.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0040_forumtopic_forumtopiccourse">
+<span id="ipc-migrations-0040-forumtopic-forumtopiccourse-module"></span><h2>IPC.migrations.0040_forumtopic_forumtopiccourse module<a class="headerlink" href="#module-IPC.migrations.0040_forumtopic_forumtopiccourse" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0040_forumtopic_forumtopiccourse.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0040_forumtopic_forumtopiccourse.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0040_forumtopic_forumtopiccourse.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0040_forumtopic_forumtopiccourse.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0039_remove_forumtopic_forumtopiccourse')]</em><a class="headerlink" href="#IPC.migrations.0040_forumtopic_forumtopiccourse.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0040_forumtopic_forumtopiccourse.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  model_name='forumtopic', name='forumTopicCourse', field=&lt;django.db.models.fields.related.ForeignKey&gt;, preserve_default=False&gt;]</em><a class="headerlink" href="#IPC.migrations.0040_forumtopic_forumtopiccourse.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0041_auto_20190330_2325">
+<span id="ipc-migrations-0041-auto-20190330-2325-module"></span><h2>IPC.migrations.0041_auto_20190330_2325 module<a class="headerlink" href="#module-IPC.migrations.0041_auto_20190330_2325" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0041_auto_20190330_2325.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0041_auto_20190330_2325.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0041_auto_20190330_2325.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0041_auto_20190330_2325.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0040_forumtopic_forumtopiccourse')]</em><a class="headerlink" href="#IPC.migrations.0041_auto_20190330_2325.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0041_auto_20190330_2325.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='result', name='resultFeedback', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0041_auto_20190330_2325.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0042_auto_20190330_2337">
+<span id="ipc-migrations-0042-auto-20190330-2337-module"></span><h2>IPC.migrations.0042_auto_20190330_2337 module<a class="headerlink" href="#module-IPC.migrations.0042_auto_20190330_2337" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0042_auto_20190330_2337.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0042_auto_20190330_2337.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0042_auto_20190330_2337.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0042_auto_20190330_2337.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0041_auto_20190330_2325')]</em><a class="headerlink" href="#IPC.migrations.0042_auto_20190330_2337.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0042_auto_20190330_2337.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AlterField  model_name='result', name='resultFeedback', field=&lt;django.db.models.fields.CharField&gt;&gt;]</em><a class="headerlink" href="#IPC.migrations.0042_auto_20190330_2337.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0043_event">
+<span id="ipc-migrations-0043-event-module"></span><h2>IPC.migrations.0043_event module<a class="headerlink" href="#module-IPC.migrations.0043_event" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0043_event.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0043_event.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0043_event.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0043_event.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0042_auto_20190330_2337')]</em><a class="headerlink" href="#IPC.migrations.0043_event.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0043_event.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Event', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('title', &lt;django.db.models.fields.CharField&gt;), ('description', &lt;django.db.models.fields.TextField&gt;), ('start_time', &lt;django.db.models.fields.DateTimeField&gt;), ('end_time', &lt;django.db.models.fields.DateTimeField&gt;)]&gt;]</em><a class="headerlink" href="#IPC.migrations.0043_event.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0044_delete_event">
+<span id="ipc-migrations-0044-delete-event-module"></span><h2>IPC.migrations.0044_delete_event module<a class="headerlink" href="#module-IPC.migrations.0044_delete_event" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0044_delete_event.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0044_delete_event.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0044_delete_event.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0044_delete_event.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0043_event')]</em><a class="headerlink" href="#IPC.migrations.0044_delete_event.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0044_delete_event.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;DeleteModel  name='Event'&gt;]</em><a class="headerlink" href="#IPC.migrations.0044_delete_event.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations.0045_event">
+<span id="ipc-migrations-0045-event-module"></span><h2>IPC.migrations.0045_event module<a class="headerlink" href="#module-IPC.migrations.0045_event" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="IPC.migrations.0045_event.Migration">
+<em class="property">class </em><code class="descclassname">IPC.migrations.0045_event.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="headerlink" href="#IPC.migrations.0045_event.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="IPC.migrations.0045_event.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [('IPC', '0044_delete_event')]</em><a class="headerlink" href="#IPC.migrations.0045_event.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="IPC.migrations.0045_event.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  name='Event', fields=[('id', &lt;django.db.models.fields.AutoField&gt;), ('eventTitle', &lt;django.db.models.fields.CharField&gt;), ('eventDescription', &lt;django.db.models.fields.TextField&gt;), ('eventDate', &lt;django.db.models.fields.DateField&gt;), ('eventTime', &lt;django.db.models.fields.TimeField&gt;), ('eventCourse', &lt;django.db.models.fields.related.ForeignKey&gt;)]&gt;]</em><a class="headerlink" href="#IPC.migrations.0045_event.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-IPC.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-IPC.migrations" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">IPC</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Project Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Code Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="IPC.html">IPC package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts.html">accounts package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finalProject.html">finalProject package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Code Documentation</a><ul>
+  <li><a href="IPC.html">IPC package</a><ul>
+      <li>Previous: <a href="IPC.html" title="previous chapter">IPC package</a></li>
+      <li>Next: <a href="accounts.html" title="next chapter">accounts package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Erik Prananta.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/IPC.migrations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

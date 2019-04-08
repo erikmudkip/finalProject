@@ -12,6 +12,12 @@ from .models import *
 
 
 def plotAttendance(username):
+    """create the attendance chart
+
+    :param username: object that contain the username of the user.
+
+    :returns: plot_div (a graph created by using plotly library).
+    """
     attendances = list(DailyAttendance.objects.filter(dailyAttendanceStudentId=username))
     student_status = list(AttendanceStatus.objects.filter())
     plot_label = []
@@ -35,6 +41,14 @@ def plotAttendance(username):
     return plot_div
 
 def plotGrade(username, subject_id, course_id):
+    """create the attendance chart
+
+    :param username: object that contain the username of the user.
+    :param subject_id: object that contain the ID of a subjectr.
+    :param course_id: object that contain the ID of a course.
+
+    :returns: plot_div (a graph created by using plotly library).
+    """
     user_result_lists = list(Result.objects.filter(resultStudentId=username, resultSubject=subject_id, resultCourse=course_id))
     subjectName = Subject.objects.get(pk=subject_id)
     print(user_result_lists)

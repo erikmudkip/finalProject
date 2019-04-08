@@ -23,6 +23,12 @@ from .forms import *
 
 @login_required
 def course(request):
+    """Render the course page
+
+    :param request: object that contains metadata about the request.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
@@ -35,6 +41,14 @@ def course(request):
 
 @login_required
 def course_statistic(request, course_id, subject_id = "none"):
+    """Render the analytics page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param subject_id: object that contain the ID of a subject in the course.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
@@ -73,6 +87,15 @@ def course_statistic(request, course_id, subject_id = "none"):
 
 @login_required
 def course_student_statistic(request, course_id, user_id, subject_id = "none"):
+    """Render the student page when a teacher click the button in the analytics page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param user_id: object that contain the ID of the student picked at analytics page.
+    :param subject_id: object that contain the ID of a subject in the course.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     today = date.today()
     student = User.objects.get(id=user_id)
@@ -101,6 +124,13 @@ def course_student_statistic(request, course_id, user_id, subject_id = "none"):
 
 @login_required
 def course_announcement(request, course_id):
+    """Render the announcements page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
@@ -114,6 +144,13 @@ def course_announcement(request, course_id):
 
 @login_required
 def create_course_announcement(request, course_id):
+    """Render the page to post an announcement.
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     announcements = list(Announcement.objects.filter(announcementCourse=course_id).order_by('-announcementDate'))
     course = Course.objects.get(id=course_id)
     if request.method == 'POST':
@@ -132,6 +169,13 @@ def create_course_announcement(request, course_id):
 
 @login_required
 def course_attendance(request, course_id):
+    """Render the attendance page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
@@ -166,6 +210,13 @@ def course_attendance(request, course_id):
 
 @login_required
 def create_course_attendance(request, course_id):
+    """Render the page used to create an attendance
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
@@ -192,6 +243,14 @@ def create_course_attendance(request, course_id):
 
 @login_required
 def course_attendance_detail(request, course_id, attendance_id):
+    """Render a detailed page of a certain attendance
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param attendance_id: object that contain the ID of the attendance picked at attendance page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     attendancesDetails = list(DailyAttendance.objects.filter(dailyAttendanceAttendanceId=attendance_id).order_by('dailyAttendanceStudentId'))
     return render(request, 'attendance_detail.html', {'attendancesDetails': attendancesDetails,
                                                       'course_id': course_id,})
@@ -199,6 +258,13 @@ def course_attendance_detail(request, course_id, attendance_id):
 
 @login_required
 def course_result(request, course_id):
+    """Render the result page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
@@ -223,6 +289,14 @@ def course_result(request, course_id):
 
 @login_required
 def course_result_detail(request, course_id, result_id):
+    """Render a detailed page of a certain result
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param result_id: object that contain the ID of the result picked at result page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     result_name = Result.objects.get(id=result_id)
     results = list(Result.objects.filter(resultName=result_name.resultName).order_by('resultName'))
     return render(request, 'result_detail.html', {'results': results,
@@ -231,6 +305,13 @@ def course_result_detail(request, course_id, result_id):
 
 @login_required
 def post_course_result(request, course_id):
+    """Render the page used to post a result
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
     students = User.objects.filter(groups__name=course.courseCode).filter(groups__name='Student')
@@ -272,6 +353,13 @@ def post_course_result(request, course_id):
 
 @login_required
 def course_material(request, course_id):
+    """Render a page containing all the material posted in the course
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
@@ -285,6 +373,13 @@ def course_material(request, course_id):
 
 @login_required
 def post_course_material(request, course_id):
+    """Render a page used to post a material
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     currentSubject = Subject.objects.get(subjectCourse = course_id, subjectTeacherId = request.user)
     if request.method == 'POST':
@@ -304,6 +399,14 @@ def post_course_material(request, course_id):
 
 @login_required
 def material_discussion(request, course_id, material_id):
+    """Render a page used by the user to discuss a material posted in the course
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param material_id: object that contain the ID of the material picked at material page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     material = Material.objects.get(id=material_id)
     discussions = list(Discussion.objects.filter(discussionMaterial = material_id, discussionCourse = course_id).order_by('-discussionCreatedTime'))
     return render(request, 'discussion.html', {'course_id': course_id,
@@ -314,6 +417,14 @@ def material_discussion(request, course_id, material_id):
 
 @login_required
 def post_material_discussion(request, course_id, material_id):
+    """Render a page used to post a discussion for discussion page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param material_id: object that contain the ID of the material picked at material page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     material = Material.objects.get(id=material_id)
     discussions = list(Discussion.objects.filter(discussionMaterial = material_id, discussionCourse = course_id).order_by('-discussionCreatedTime'))[:5]
@@ -335,6 +446,13 @@ def post_material_discussion(request, course_id, material_id):
 
 @login_required
 def institute_forum(request, course_id):
+    """Render a forum that can be used by all member of an institution
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     forum_topics = list(ForumTopic.objects.filter(forumTopicInstitution = course.courseInstitution, forumTopicFlag = 0).order_by('-forumTopicPostedDate'))
     return render(request, 'institution_forum.html', {'course_id': course_id,
@@ -343,6 +461,13 @@ def institute_forum(request, course_id):
 
 @login_required
 def create_institute_topic(request, course_id):
+    """Render a page used by user to create a topic in the forum page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     institution = Institution.objects.get(id=course.courseInstitution.id)
     if request.method == 'POST':
@@ -363,6 +488,14 @@ def create_institute_topic(request, course_id):
 
 @login_required
 def delete_institute_topic(request, course_id, topic_id):
+    """Render a page used by user to delete a topic the user created in the forum page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param topic_id: object that contain the ID of the topic that the user created.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     topic = ForumTopic.objects.get(id=topic_id)
     topic.forumTopicFlag = 1
     topic.save()
@@ -371,6 +504,14 @@ def delete_institute_topic(request, course_id, topic_id):
 
 @login_required
 def topic_post(request, course_id, topic_id):
+    """Render a page where user can discuss the heading and put comments
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param topic_id: object that contain the ID of the topic that the user created.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     topic = ForumTopic.objects.get(id=topic_id)
     topic_posts = list(ForumTopicPost.objects.filter(forumTopicPostTopic = topic_id).order_by('-forumTopicPostCreatedTime'))
     return render(request, 'topic_post.html', {'course_id': course_id,
@@ -381,6 +522,14 @@ def topic_post(request, course_id, topic_id):
 
 @login_required
 def post_topic_post(request, course_id, topic_id):
+    """Render a page used by user to post a comment in a topic inside the forum page
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param topic_id: object that contain the ID of the topic that the user created.
+
+    :returns: render (a combinations of a given template with a given context dictionary and returns an HttpResponse object with that rendered text.).
+    """
     course = Course.objects.get(id=course_id)
     topic = ForumTopic.objects.get(id=topic_id)
     topic_posts = list(ForumTopicPost.objects.filter(forumTopicPostTopic = topic_id).order_by('-forumTopicPostCreatedTime'))[:5]
@@ -403,6 +552,13 @@ def post_topic_post(request, course_id, topic_id):
 
 @login_required
 def download(request,file_name):
+    """Render a page used by user to post a comment in a topic inside the forum page
+
+    :param request: object that contains metadata about the request.
+    :param file_name: object that contain the path of a certain material.
+
+    :returns: response (allow user to download material from the materials page).
+    """
     file_path = settings.MEDIA_ROOT +'/'+ file_name
     file_wrapper = FileWrapper(file(file_path,'rb'))
     file_mimetype = mimetypes.guess_type(file_path)
@@ -414,6 +570,12 @@ def download(request,file_name):
 
 
 class edit_material_discussion(UpdateView):
+    """Render a page used by user to edit a comment in the discussion page
+
+    :param UpdateView: used to update an existing object.
+
+    :returns: An HTML url and object that's specified.
+    """
     model = Discussion
     fields = ('discussionPost', )
     template_name = 'edit_discussion.html'
@@ -421,12 +583,25 @@ class edit_material_discussion(UpdateView):
     context_object_name = 'discussion'
 
     def form_valid(self, form):
+        """redirect user to material page when form is valid
+
+        :param self: object that contains metadata about the request.
+        :param form: form that was filled by the user and posted to the views to be processed.
+
+        :returns: redirect (direct user to a different page.).
+        """
         discussion = form.save(commit=False)
         discussion.discussionUpdatedTime = datetime.now()
         discussion.save()
         return redirect('material_discussion', course_id=discussion.discussionCourse.pk, material_id=discussion.discussionMaterial.pk)
 
 class edit_post_topic_post(UpdateView):
+    """Render a page used by user to edit a post in the forum page
+
+    :param UpdateView: used to update an existing object.
+
+    :returns: An HTML url and object that's specified.
+    """
     model = ForumTopicPost
     fields = ('forumTopicPostPost', )
     template_name = 'edit_post.html'
@@ -434,12 +609,28 @@ class edit_post_topic_post(UpdateView):
     context_object_name = 'post'
 
     def form_valid(self, form):
+        """redirect user to material page when form is valid
+
+        :param self: object that contains metadata about the request.
+        :param form: form that was filled by the user and posted to the views to be processed.
+
+        :returns: redirect (direct user to a different page.).
+        """
         post = form.save(commit=False)
         post.forumTopicPostUpdatedTime = datetime.now()
         post.save()
         return redirect('topic_post', course_id=post.forumTopicPostTopic.forumTopicCourse.pk, topic_id=post.forumTopicPostTopic.pk)
 
 class course_calendar(generic.ListView):
+    """create the calendar page
+
+    .. note::This code was made by following this tutorial "https://www.huiwenteo.com/normal/2018/07/24/django-calendar.html". Some part of the code is change in order to be able to be integrated to the webapp
+
+    :param self: object that contains metadata about the request.
+    :param form: form that was filled by the user and posted to the views to be processed.
+
+    :returns: redirect (direct user to a different page.).
+    """
     model = Event
     template_name = 'calendar.html'
 
@@ -460,18 +651,42 @@ class course_calendar(generic.ListView):
         return {'context': context, 'course_id': course_id, 'user_type': user_type}
 
 def get_date(req_month):
+    """get date for the calendar page
+
+    .. note::This code was made by following this tutorial "https://www.huiwenteo.com/normal/2018/07/24/django-calendar.html". Some part of the code is change in order to be able to be integrated to the webapp
+
+    :param req_month: object that contain name of a month.
+
+    :returns: datetime.today() (return the current date and time.).
+    """
     if req_month:
         year, month = (int(x) for x in req_month.split('-'))
         return date(year, month, day=1)
     return datetime.today()
 
 def prev_month(d):
+    """get previous month for the calendar page
+
+    .. note::This code was made by following this tutorial "https://www.huiwenteo.com/normal/2018/07/24/django-calendar.html". Some part of the code is change in order to be able to be integrated to the webapp
+
+    :param d: object that contain the current date, month and year.
+
+    :returns: month (return the previous month name.).
+    """
     first = d.replace(day=1)
     prev_month = first - timedelta(days=1)
     month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
     return month
 
 def next_month(d):
+    """get the next month for the calendar page
+
+    .. note::This code was made by following this tutorial "https://www.huiwenteo.com/normal/2018/07/24/django-calendar.html". Some part of the code is change in order to be able to be integrated to the webapp
+
+    :param d: object that contain the current date, month and year.
+
+    :returns: month (return the next month name.).
+    """
     days_in_month = calendar.monthrange(d.year, d.month)[1]
     last = d.replace(day=days_in_month)
     next_month = last + timedelta(days=1)
@@ -479,6 +694,16 @@ def next_month(d):
     return month
 
 def course_event(request, course_id, event_id=None):
+    """create or show event based on parameter
+
+    .. note::This code was made by following this tutorial "https://www.huiwenteo.com/normal/2018/07/24/django-calendar.html". Some part of the code is change in order to be able to be integrated to the webapp
+
+    :param request: object that contains metadata about the request.
+    :param course_id: object that contain the ID of the course picked at course page.
+    :param event_id: object that contain the ID of an event.
+
+    :returns: month (return the next month name.).
+    """
     user = request.user
     if user.groups.filter(name='Teacher').exists():
         user_type = "teacher"
